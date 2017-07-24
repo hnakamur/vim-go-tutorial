@@ -2,6 +2,8 @@
 
 これは vim-go のチュートリアルです。 vim-go のインストール方法と使い方についての簡単なチュートリアルとなっています。
 
+(訳注: このチュートリアルは [fatih/vim-go-tutorial: Tutorial for vim-go](https://github.com/fatih/vim-go-tutorial) を翻訳したものです。修正・改善がある場合はぜひプルリクエストを送ってください！)
+
 # 目次
 
 1. [クイックセットアップ](#quick-setup)
