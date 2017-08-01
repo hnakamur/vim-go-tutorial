@@ -313,8 +313,8 @@ autocmd FileType go nmap <leader>t  <Plug>(go-test)
 
 これで `<leader>t` で簡単にファイルをテストできます。
 
-* Let's make building Go files simpler. First, remove the following mapping we added
-  previously:
+* GoファイルのBuildをさらに簡単にしましょう。最初に、先ほど追加した以下のマッピ
+  ングを削除してください。
 
 ```vim
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
