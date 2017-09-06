@@ -819,7 +819,7 @@ let g:go_fmt_fail_silently = 1
   使えます。
 
 ```vim 
-let g:go_snippet_case_type = "camelcase"
+let g:go_addtags_transform = "camelcase"
 ```
 
 # 美しく表示する
