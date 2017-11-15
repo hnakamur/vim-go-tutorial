@@ -59,7 +59,7 @@ call plug#end()
 ```
 
 あるいは Vim を起動して `:GoInstallBinaries` を実行してください。これは
-`vim-go` に必要なツールを全てインストールする `vim-go` のコマンドです。 
+`vim-go` に必要なツールを全てインストールする `vim-go` のコマンドです。
 コンパイル済みのバイナリをダウンロードするのではなく、裏で `go get` を呼ぶので
 バイナリは全てあなたのホストマシンでコンパイルされます (これは安全であり且つ
 複数のプラットフォームのバイナリを提供する必要がないのでインストール手順を
@@ -297,7 +297,7 @@ func TestQuz(t *testing.T) {
 の中で `:GoTestCompile` を実行すれば、以下のような出力が見られるはずです。
 
 ```
-vim-go: [test] SUCCESS 
+vim-go: [test] SUCCESS
 ```
 
 ### vimrc の改善
@@ -816,7 +816,7 @@ let g:go_fmt_fail_silently = 1
   できます。例えばデフォルト値をキャメルケースに変更したい場合は以下の設定が
   使えます。
 
-```vim 
+```vim
 let g:go_snippet_case_type = "camelcase"
 ```
 
@@ -950,7 +950,7 @@ package main
   されます。
 
 ```
-autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 ```
 
 この設定はタブをスペースに展開はしません。1つのタブを `4` つのスペースとして
@@ -1310,8 +1310,7 @@ autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 
 * 定義にジャンプするコマンドファミリーは非常に協力でいて使うのは簡単です。
 裏ではデフォルトでは `guru` (以前は `oracle` と呼ばれていました) というツールを
-使っています。 `guru` は非常に予測しやすいことの素晴らしい軌跡を持っています
-(訳注: ここは意味がとれませんでした)。ドットインポートに対しても機能しますし、
+使っています。 `guru` はその高度な推測能力において優れた実績を誇ります。ドットインポートに対しても機能しますし、
 ベンダライズされたインポートや明白ではない他の多くの識別子についても機能します。
 以前は vim-go は `godef` を使っていて、これは問い合わせに応答するのが非常に
 速かったです。最新のリリースでは `:GoDef` に使うコマンドを切り替えることが
