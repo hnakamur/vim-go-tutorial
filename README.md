@@ -93,8 +93,10 @@ vim main.go
 
 # 実行する
 
-`:GoRun` でファイルを簡単に実行できます。裏ではカレントファイルに対して
+`:GoRun %` でファイルを簡単に実行できます。裏ではカレントファイルに対して
 `go run` が実行されます。実行すると `vim-go` と出力されるはずです。
+
+`:GoRun` でパッケージ全体を実行します。
 
 # ビルドする
 
@@ -634,7 +636,8 @@ let g:go_textobj_include_function_doc = 0
 Goの構造体リテラルを行分割と結合してくれる素晴らしいプラグインがあります。
 実際はGo用のプラグインではないのですが、Goの構造体もサポートしています。
 有効にするには `vimrc` の `plug` 定義の中にプラグインのディレクティブを追加
-し `:PlugInstall` を実行してください。例を示します。
+し vim エディタ内で `:source ~/.vimrc` を実行し、 `:PlugInstall` を実行してください。
+例を示します。
 
 ```vim
 call plug#begin()
@@ -674,7 +677,8 @@ vim-go は2つのポピュラーなスニペットプラグインをサポート
 [neosnippet](https://github.com/Shougo/neosnippet.vim) です。デフォルトでは
 `Ultisnips` をインストールしていればそのまま動きます。まず `ultisnips` を
 インストールしてみましょう。 `vimrc` の `plug` ディレクティブの間に追加して
-`:PlugInstall` を実行しましょう。例を示します。
+vim エディタ内で :`source ~/.vimrc` を実行し、`:PlugInstall` を実行しましょう。
+例を示します。
 
 ```vim
 call plug#begin()
@@ -817,7 +821,7 @@ let g:go_fmt_fail_silently = 1
   使えます。
 
 ```vim
-let g:go_snippet_case_type = "camelcase"
+let g:go_addtags_transform = "camelcase"
 ```
 
 # 美しく表示する
@@ -864,16 +868,32 @@ f.quz # ここの quz がハイライトされます
 
 ```vim
 let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
 ```
 
-今度は関数名もハイライトされます。 `Foo` と `main` が新たにハイライト
-されます。
+今度は宣言内の関数名とメソッド名もハイライトされます。 `Foo` と `main` が新たに
+ハイライトされますが、`Println` は呼び出しなのでハイライトされません。
 
 ```go
 func (t *T) Foo() {}
 
 func main() {
+  fmt.Println("vim-go")
+}
+```
+
+関数とメソッドの呼び出しもハイライトしたい場合は、以下の設定を追加してください。
+
+```vim
+let g:go_highlight_function_calls = 1
+```
+
+すると `Println` もハイライトされます。
+
+```go
+func (t *T) Foo() {}
+
+func main() {
+  fmt.Println("vim-go")
 }
 ```
 
@@ -977,9 +997,9 @@ let g:molokai_original = 1
 colorscheme molokai
 ```
 
-設定を追加したらVimを再起動して `:PlugInstall` を実行してください。これで
-プラグインがダウンロードされインストールされます。プラグインがインストール
-されたら再びVimを再起動してください。
+設定を追加したらVimを再起動して ``:source ~/.vimrc` を実行し :PlugInstall` を
+実行してください。これでプラグインがダウンロードされインストールされます。
+プラグインがインストールされたら再びVimを再起動してください。
 
 # チェックする
 
@@ -1161,7 +1181,7 @@ vim-go のためだけに作られたカスタムツールです。 `motion` は
 プラグインは [ctrlp](https://github.com/ctrlpvim/ctrlp.vim) と呼ばれています。
 長い間 Vim を使っているユーザなら既にインストールしていることでしょう。
 インストールするには `plug` ディレクティブに以下の設定を追加して
-`:PlugInstall` コマンドを実行します。
+vim エディタ内で `:source ~/.vimrc` を実行し、 `:PlugInstall` コマンドを実行します。
 
 ```vim
 Plug 'ctrlpvim/ctrlp.vim'
@@ -1571,10 +1591,9 @@ func (h handler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 ```
 
 `handler` にカーソルを置いて `:GoReferrers` を実行してください。これは
-`vim-go` の `referrers` モードを呼び出します。これは作業領域内の必要な
+`guru` の `referrers` モードを呼び出します。これは作業領域内の必要な
 パッケージ全てをスキャンして、選択された識別子への参照を見つけます。
-結果はクイックフィクスリストになりますので、簡単に結果にジャンプできる
-はずです。
+結果はローケーションリストになります。
 
 ---
 
@@ -1585,7 +1604,7 @@ func (h handler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
 同じ `main.go` ファイルで続けましょう。 (`ServeHTTP` 関数内の)  `URL`
 フィールドか `req.URL` にカーソルを置いて `:GoDescribe` を実行してください。
-クイックフィクスリストが以下の内容で表示されます。
+ロケーションリストが以下の内容で表示されます。
 
 ```
 main.go|27 col 48| reference to field URL *net/url.URL
@@ -1624,7 +1643,7 @@ main.go|27 col 48| Fields:
 
 同じ前の `main.go` ファイルで続けましょう。 `main()` 関数直後の
 `handler` 識別子にカーソルを置いてください。 `:GoImplements` を実行すると
-クイックフィクスリストが以下の内容になるのが見られるでしょう。
+ロケーションリストが以下の内容になるのが見られるでしょう。
 
 
 ```
@@ -1634,7 +1653,7 @@ main.go|23 col 6| chan type handler
 
 1行目は選択した型で2行目はその型が実装しているインターフェースです。
 1つ型が多くのインターフェースを実装することが可能なのでナビゲートできる
-ようにクイックフィクスリストを使っています。
+ようにロケーションリストを使っています。
 
 ---
 
@@ -1659,7 +1678,6 @@ main.go|12 col 6| this error may contain these dynamic types:
 /usr/local/go/src/net/net.go|380 col 6| *net.OpError
 ```
 
-これは古典的な `quick` の出力で、それらの間をナビゲートすることができます。
 `err` の値が `syscall.EINVAL` 定数になるかもしれないことや動的な型の
 `syscall.Errno` あるいは `*net.OpError` になるかもしれないことがわかるでしょう。
 ご覧のようにこれは必要なら異なるエラー処理をするカスタムロジックを実装
@@ -1681,7 +1699,7 @@ main.go|12 col 6| this error may contain these dynamic types:
 ch <- n
 ```
 
-`:GoChannelPeers` を実行してください。クイックフィクスウィンドウが以下の内容で
+`:GoChannelPeers` を実行してください。ロケーションリストが以下の内容で
 表示されるのを見られるでしょう。
 
 ```
@@ -1751,9 +1769,6 @@ func Kenya() string {
 main.go| 10 col 7 static function call from github.com/fatih/vim-go-tutorial.Main
 main.go| 11 col 7 static function call from github.com/fatih/vim-go-tutorial.Main
 ```
-
-他の使用方法と同じようにクイックフィクスウィンドウの中で呼び出し側に簡単に
-ナビゲートできます。
 
 最後に、 `callstack` というモードもあります。これは選択部分を含む関数への
 コールグラフの根本からの任意のパスを表示します。
