@@ -1,49 +1,61 @@
-# vim-go チュートリアル
+# vim-go チュートリアル <!-- vim-go-tutorial -->
 
 これは vim-go のチュートリアルです。 vim-go のインストール方法と使い方についての簡単なチュートリアルとなっています。
+<!--
+Tutorial for vim-go. A simple tutorial on how to install and use vim-go.
+-->
 
 (訳注: このチュートリアルは [fatih/vim-go-tutorial: Tutorial for vim-go](https://github.com/fatih/vim-go-tutorial) を翻訳したものです。修正・改善がある場合はぜひプルリクエストを送ってください！)
 
 # 目次
 
-1. [クイックセットアップ](#クイックセットアップ)
-2. [Hello World](#hello-world)
-3. [実行する](#実行する)
-4. [ビルドする](#ビルドする)
-5. [修正する](#修正する)
-6. [テストする](#テストする)
-7. [カバレッジを見る](#カバレッジを見る)
-8. [編集する](#編集する)
-  * [import文](#import文)
-  * [テキストオブジェクト](#テキストオブジェクト)
-  * [構造体リテラルの行分割と結合](#構造体リテラルの行分割と結合)
-  * [スニペット](#スニペット)
-9. [美しく表示する](#美しく表示する)
-10. [チェックする](#チェックする)
-11. [ナビゲートする](#ナビゲートする)
-  * [代替ファイル](#代替ファイル)
-  * [定義へジャンプ](#定義へジャンプ)
-  * [関数の間を移動する](#関数の間を移動する)
-12. [理解する](#理解する)
-  * [ドキュメント検索](#ドキュメント検索)
-  * [識別子の解決](#識別子の解決)
-  * [識別子のハイライト](#識別子のハイライト)
-  * [依存パッケージとファイル](#依存パッケージとファイル)
-  * [Guru](#guru)
-13. [リファクタリングする](#リファクタリングする)
-  * [識別子をリネームする](#識別子をリネームする)
-  * [関数を抽出する](#関数を抽出する)
-14. [コード生成する](#コード生成する)
-  * [インターフェースを実装するメソッドスタブ](#インターフェースを実装するメソッドスタブ)
-15. [シェアする](#シェアする)
+1. [クイックセットアップ](#クイックセットアップ) <!-- [Quick Setup](#quick-setup) -->
+2. [Hello World](#hello-world) <!-- [Hello World](#hello-world) -->
+3. [実行する](#実行する) <!-- [Run it](#run-it) -->
+4. [ビルドする](#ビルドする) <!-- [Build it](#build-it) -->
+5. [修正する](#修正する) <!-- [Fix it](#fix-it) -->
+6. [テストする](#テストする) <!-- [Test it](#test-it) -->
+7. [カバレッジを見る](#カバレッジを見る) <!-- [Cover it](#cover-it) -->
+8. [編集する](#編集する) <!-- [Edit it](#edit-it) -->
+  * [import文](#import文) <!-- [Imports](#imports) -->
+  * [テキストオブジェクト](#テキストオブジェクト) <!-- [Text Objects](#text-objects) -->
+  * [構造体リテラルの行分割と結合](#構造体リテラルの行分割と結合) <!-- [Struct split&join](#struct-split-and-join) -->
+  * [スニペット](#スニペット) <!-- [Snippets](#snippets) -->
+9. [美しく表示する](#美しく表示する) <!-- [Beautify it](#beautify-it) -->
+10. [チェックする](#チェックする) <!-- [Check it](#check-it) -->
+11. [ナビゲートする](#ナビゲートする) <!-- [Navigate it](#navigate-it) -->
+  * [代替ファイル](#代替ファイル) <!-- [Alternate files](#alternate-files) -->
+  * [定義へジャンプ](#定義へジャンプ) <!-- [Go to definition](#go-to-definition) -->
+  * [関数の間を移動する](#関数の間を移動する) <!-- [Move between functions](#move-between-functions) -->
+12. [理解する](#理解する) <!-- [Understand it](#understand-it) -->
+  * [ドキュメント検索](#ドキュメント検索) <!-- [Documentation Lookup](#documentation-lookup) -->
+  * [識別子の解決](#識別子の解決) <!-- [Identifier resolution](#identifier-resolution) -->
+  * [識別子のハイライト](#識別子のハイライト) <!-- [Identifier highlighting](#identifier-highlighting) -->
+  * [依存パッケージとファイル](#依存パッケージとファイル) <!-- [Dependencies and files](#dependencies-and-files)
+ -->
+  * [Guru](#guru) <!-- [Guru](#guru) -->
+13. [リファクタリングする](#リファクタリングする) <!-- [Refactor it](#refactor-it) -->
+  * [識別子をリネームする](#識別子をリネームする) <!-- [Rename identifiers](#rename-identifiers) -->
+  * [関数を抽出する](#関数を抽出する) <!-- [Extract function](#extract-function) -->
+14. [コード生成する](#コード生成する) <!-- [Generate it](#generate-it) -->
+  * [インターフェースを実装するメソッドスタブ](#インターフェースを実装するメソッドスタブ) <!-- [Method stubs implementing an interface](#method-stubs-implementing-an-interface)
+ -->
+15. [シェアする](#シェアする) <!-- [Share it](#share-it) -->
 
-# クイックセットアップ
+# クイックセットアップ <!-- Quick Setup -->
 
 vim-go をインストールするのに私たちは `vim-plug` を使います。
 他のプラグインマネージャを使っても構いません。
 私たちは最小限の `~/.vimrc` を作って必要に応じて設定を追加していきます。
+<!--
+We're going to use `vim-plug` to install vim-go. Feel free to use other plugin
+managers instead. We will create a minimal `~/.vimrc`, and add to it as we go along.
+-->
 
 まず `vim-go` と共に `vim-plug` を取得してインストールしてください。
+<!--
+First fetch and install `vim-plug` along with `vim-go`:
+-->
 
 ```
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -51,6 +63,9 @@ git clone https://github.com/fatih/vim-go.git ~/.vim/plugged/vim-go
 ```
 
 以下の内容で `~/.vimrc` を作成してください。
+<!--
+Create `~/.vimrc` with following content:
+-->
 
 ```vim
 call plug#begin()
@@ -66,6 +81,15 @@ call plug#end()
 単純化します)。 (`guru` や `goimports` などの) 必要なツールの一部を既に
 インストール済みの場合は `:GoUpdateBinaries` を実行してバイナリをアップデート
 してください。
+<!--
+Or open Vim and execute `:GoInstallBinaries`. This is a `vim-go` command that
+installs all `vim-go` dependencies for you. It doesn't download pre compiled
+binaries, instead it calls `go get` under the hood, so the binaries are all
+compiled in your host machine (which is both safe and simplifies the
+installation process as we don't need to provide binaries for multiple
+platforms). If you already have some of the dependencies (such as `guru`,
+`goimports`) call `:GoUpdateBinaries` to update the binaries.
+-->
 
 このチュートリアルのすべてのサンプルは
 `GOPATH/src/github.com/fatih/vim-go-tutorial/`
@@ -73,54 +97,89 @@ call plug#end()
 カレントフォルダがこのフォルダになっていることを確認してください。
 そうすることでチュートリアルを進めることが簡単になります。
 既に `GOPATH` を設定済みであれば、単に以下のように実行してください。
+<!--
+For the tutorial, all our examples will be under
+`GOPATH/src/github.com/fatih/vim-go-tutorial/`. Please be sure you're inside
+this folder. This will make it easy to follow the
+tutorial. If you already have a `GOPATH` set up just execute:
+-->
 
 ```
 go get github.com/fatih/vim-go-tutorial
 ```
 
 あるいは必要ならフォルダを作成してください。
+<!--
+Or create the folder, if necessary.
+-->
 
 
 # Hello World!
 
 ターミナルで `main.go` を開いてください。
+<!--
+Open the `main.go` file from your terminal:
+-->
 
 ```
 vim main.go
 ```
 
 これは標準出力に `vim-go` と出力する非常に基本的なファイルになっています。
+<!--
+It's a very basic file that prints `vim-go` to stdout.
+-->
 
-# 実行する
+# 実行する <!-- Run it -->
 
 `:GoRun %` でファイルを簡単に実行できます。裏ではカレントファイルに対して
 `go run` が実行されます。実行すると `vim-go` と出力されるはずです。
+<!--
+You can easily run the file with `:GoRun %`. Under the hood it calls `go run` for
+the current file. You should see that it prints `vim-go`.
+-->
 
 `:GoRun` でパッケージ全体を実行します。
+<!--
+For whole package run with `:GoRun`.
+-->
 
-# ビルドする
+# ビルドする <!-- Build it -->
 
 `vim-go` を `Hello Gophercon` に置き換えてください。実行する代わりにコンパイル
 してみましょう。このために `:GoBuild` があります。実行すると以下のメッセージが
 表示されるはずです。
+<!--
+Replace `vim-go` with `Hello Gophercon`. Let us compile the file instead of running it.
+For this we have `:GoBuild`. If you call it, you should see this message: 
+-->
 
 ```
 vim-go: [build] SUCCESS
 ```
 
 裏では `go build` が実行されますが、それよりは少し賢いです。以下の点が異なります。
+<!--
+Under the hood it calls `go build`, but it's a bit smarter. It does a couple of
+things differently: 
+-->
 
 * バイナリは作られません。 `:GoBuild` を複数回実行しても作業領域を汚染
-  することはありません。
-* ソースのパッケージディレクトリに自動的に `cd` します。
-* ビルドエラーがある場合はパースしてクイックフィクスリストに表示します。
+  することはありません。 <!-- No binaries are created; you can call `:GoBuild` multiple times without
+  polluting your workspace. -->
+* ソースのパッケージディレクトリに自動的に `cd` します。 <!-- It automatically `cd`s into the source package's directory -->
+* ビルドエラーがある場合はパースしてクイックフィクスリストに表示します。 <!-- It parses any errors and shows them inside a quickfix list -->
 * 自動的に GOPATH を検知して必要に応じて修正します (`gb` や `Godeps` などの
-  プロジェクトを検知します)。
-* NeoVimまたはVim8.0以降のバージョンで実行された場合は非同期に実行します。
+  プロジェクトを検知します)。 <!-- It automatically detects the GOPATH and modifies it if needed (detects
+  projects such as `gb`, `Godeps`, etc..) -->
+* NeoVimまたはVim8.0以降のバージョンで実行された場合は非同期に実行します。 <!-- Runs async if used within Vim 8.0.xxx or NeoVim -->
 
-# 修正する
+# 修正する <!-- Fix it -->
 
 2つのコンパイルエラーを追加して2つのビルドエラーが起きるようにしてみましょう。
+<!--
+Let's introduce two errors by adding two compile errors:
+-->
 
 ```go
 var b = foo()
@@ -132,6 +191,9 @@ func main() {
 ```
 
 ファイルを保存して再度 `:GoBuild` を実行してください。
+<!--
+Save the file and call `:GoBuild` again. 
+-->
 
 今回はクイックフィクスビューが開きます。エラー間をジャンプするのに
 `:cnext` と `:cprevious` が使えます。最初のエラーを修正しファイルを保存して
@@ -139,10 +201,23 @@ func main() {
 更新されるでしょう。2つめのエラーも消しファイルを保存して再度 `:GoBulid` を
 実行してください。今度はもうエラーがないので vim-go はクイックフィクスウィンドウを
 自動的に閉じてくれます。
+<!--
+This time the quickfix view will be opened. To jump between the errors you can
+use `:cnext` and `:cprevious`. Let us fix the first error, save the
+file and call `:GoBuild` again. You'll see the quickfix list is updated with a
+single error. Remove the second error as well, save the file and call
+`:GoBuild` again. Now because there are no more errors, vim-go automatically
+closes the quickfix window for you.
+-->
 
 もう少し改善してみましょう。 Vim には `autowrite` という設定があり
 `:make` を実行したらファイルの内容を自動的に保存できます。 vim-go も
 この設定を活用できます。 `.vimrc` を開いて以下の内容を追加してください。
+<!--
+Let us improve it a little bit. Vim has a setting called `autowrite` that
+writes the content of the file automatically if you call `:make`. vim-go also
+makes use of this setting. Open your `.vimrc` and add the following:
+-->
 
 ```
 set autowrite
@@ -155,17 +230,31 @@ vimを再起動するか `:source ~/.vimrc` として設定を反映する必要
 これでもう `:GoBuild` を実行するときにファイルを保存する必要はありません。
 再度2つのエラーを追加して `:GoBuild` を実行するには `:GoBuild` だけを
 実行すれば良いのでより迅速に繰り返すことができます。
+<!--
+Now you don't have to save your file anymore when you call `:GoBuild`.  If we
+reintroduce the two errors and call `:GoBuild`, we can now iterate much more
+quickly by only calling `:GoBuild`.
+-->
 
 `:GoBuild` を実行すると最初のエラーにジャンプします。ジャンプしたくない場合は
 最後に `!` (感嘆符)を付けて `:GoBuild!` と実行してください。
+<!--
+`:GoBuild` jumps to the first error encountered. If you don't want to jump
+append the `!` (bang) sign: `:GoBuild!`.
+-->
 
 `:GoRun` 、 `:GoInstall` 、 `:GoTest` など全ての `go` コマンドで、エラーが
 あるときはクイックフィクスウィンドウが必ず開きます。
+<!--
+In all the `go` commands, such as `:GoRun`, `:GoInstall`, `:GoTest`, etc..,
+whenever there is an error the quickfix window always will pop up.
+-->
 
-### vimrc の改善
+### vimrc の改善 <!-- vimrc improvements -->
 
 * 以下のショートカットを追加すればクイックフィクスリスト内のエラー間でジャンプ
-するのがより簡単になります。
+するのがより簡単になります。 <!-- You can add some shortcuts to make it easier to jump between errors in quickfix
+list: -->
 
 ```vi
 map <C-n> :cnext<CR>
@@ -174,7 +263,8 @@ nnoremap <leader>a :cclose<CR>
 ```
 
 * 私はさらに以下のショートカットを使ってGoのプログラムを `<leader>b` と
-`<leader>r` でビルド、実行しています。
+`<leader>r` でビルド、実行しています。 <!-- I also use these shortcuts to build and run a Go program with `<leader>b` and
+`<leader>r`: -->
 
 ```vim
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
@@ -188,18 +278,32 @@ autocmd FileType go nmap <leader>r  <Plug>(go-run)
 を開きますが、ロケーションリストはウィンドウに紐づけられているので、それぞれの
 ウィンドウが別のリストを持つことができます。これは複数のウィンドウと複数の
 ロケーションリストを持ち、1つは `Build` 用、1つは `Check` 用、1つは `Test` 用
-などと使い分けることができます。
+などと使い分けることができます。 <!-- There are two types of error lists in Vim. One is called `location list` the
+other `quickfix`. Unfortunately the commands for each lists are different. So
+`:cnext` only works for `quickfix` list, for `location lists` you have to use
+`:lnext`. Some of the commands in `vim-go` open a location list, because
+location lists are associated with a window and each window can have a
+separate list. This means you can have multiple windows, and multiple
+location lists, one for `Build`, one for `Check`, one for `Tests`, etc..
+-->
 
 しかし `クイックフィクス` だけを使いたいユーザもいます。以下の設定を `vimrc` に
 追加すれば、すべてのリストは `クイックフィクス` になります。
+<!--
+Some people prefer to use only `quickfix` though. If you add the following to
+your `vimrc` all lists will be of type `quickfix`:
+-->
 
 ```vim
 let g:go_list_type = "quickfix"
 ```
 
-# テストする
+# テストする <!-- Test it -->
 
 簡単な関数とその関数のテストを書いてみましょう。以下を追加してください。
+<!--
+Let's write a simple function and a test for the function. Add the following:
+-->
 
 
 ```go
@@ -212,9 +316,18 @@ func Bar() string {
 構いません。起動済みのVimからでも良いですし、別のVimセッションからでも良いです。
 ご自由にどうぞ)。 ここでは `:edit main_test.go` を実行しカレントバッファを使って
 Vimから開きましょう。
+<!--
+Open a new file called `main_test.go` (it doesn't matter how you open it, from
+inside Vim, a separate Vim session, etc.. it's up to you). Let us use the
+current buffer and open it from Vim via `:edit main_test.go`.
+-->
 
 新規のファイルを開くと何かに気づくでしょう。ファイルには自動的にパッケージ宣言が
 追加されています。
+<!--
+When you open the new file you notice something. The file automatically has the
+package declaration added:
+-->
 
 ```go
 package main
@@ -224,8 +337,17 @@ package main
 あることを検出し、パッケージ名に基づいたファイルを作ったのです (今回のケースでは
 パッケージ名は `main` でした)。 もしファイルが存在しなかった場合は、 vim-go は
 自動的にシンプルな main パッケージの内容を生成します。
+<!--
+This is done by vim-go automatically. It detected that the file is inside a
+valid package and therefore created a file based on the package name (in our
+case the package name was `main`). If there are no files, vim-go automatically
+populates the content with a simple main package.
+-->
 
 テストファイルを以下のコードに更新してください。
+<!--
+Update the test file with the following code:
+-->
 
 ```go
 package main
@@ -243,6 +365,9 @@ func TestBar(t *testing.T) {
 ```
 
 `:GoTest` を実行してください。以下のメッセージが表示されます。
+<!--
+Call `:GoTest`. You'll see the following message:
+-->
 
 ```
 vim-go: [test] PASS
@@ -250,18 +375,37 @@ vim-go: [test] PASS
 
 `:GoTest` は裏で `go test` を実行します。 `:GoBuild` のときと同じ改善点があります。
 テストでエラーがある場合、クイックフィクスリストが再び開き簡単にジャンプできます。
+<!--
+`:GoTest` calls `go test` under the hood. It has the same improvements
+we have for `:GoBuild`. If there is any test error, a quickfix list is
+opened again and you can jump to it easily.
+-->
 
 別のちょっとした改善はテストファイルそのものを開く必要がないということです。
 試してみましょう。 `main.go` を開いて `:GoTest` を実行してください。これでも
 テストが実行されることがわかるでしょう。
+<!--
+Another small improvement is that you don't have to open the test file itself.
+Try it yourself: open `main.go` and call `:GoTest`. You'll see the tests will
+be run for you as well.
+-->
 
 `:GoTest` はデフォルトでは10秒でタイムアウトします。Vimはデフォルトでは非同期では
 ないのでこの設定は有用です。 `let g:go_test_timeout = '10s'` のように書くことで
 タイムアウトの値を変えることができます。
+<!--
+`:GoTest` times out after 10 seconds by default. This is useful because Vim is
+not async by default. You can change the timeout value with `let g:go_test_timeout = '10s'`
+-->
 
 テストファイルを簡単に扱うためにさらに2つのコマンドがあります。最初の1つは
 `:GoTestFunc` です。これはカーソルの下にある関数だけをテストします。
 テストファイル (`main_test.go`) の内容を以下のように変えましょう。
+<!--
+We have two more commands that make it easy to deal with test files. The first
+one is `:GoTestFunc`. This only tests the function under your cursor.
+Let us change the content of the test file (`main_test.go`) to:
+-->
 
 ```go
 package main
@@ -290,6 +434,12 @@ func TestQuz(t *testing.T) {
 表示されます。しかし `TestBar` 関数の内側に移動して `:GoTestFunc` を実行すると
 テストはパスします！ 時間がかかるテストが多数あってそのうちの一部のテストだけを
 実行したい場合はこれはとても便利です。
+<!--
+Now when we call `:GoTest` a quickfix window will open with two errors.
+However if go inside the `TestBar` function and call `:GoTestFunc`, you'll see
+that our test passes!  This is really useful if you have a lot of tests that
+take time and you only want to run certain tests.
+-->
 
 もう1つのテストに関連したコマンドは `:GoTestCompile` です。テストは成功する
 必要があるだけではなく、何の問題もなくコンパイルが通らなければなりません。
@@ -297,24 +447,38 @@ func TestQuz(t *testing.T) {
 エラーがあればクイックフィクスを開きます。しかしこの場合はテストは **実行しません** 。
 これは頻繁に編集する多くのテストがある場合に非常に便利です。カレントのテストファイル
 の中で `:GoTestCompile` を実行すれば、以下のような出力が見られるはずです。
+<!--
+The other test-related command is `:GoTestCompile`. Tests not only need to
+pass with success, they must compile without any problems.
+`:GoTestCompile` compiles your test file, just like `:GoBuild` and opens a
+quickfix if there are any errors. This however **doesn't run** the tests. This
+is very useful if you have a large test which you're editing a lot. Call
+`:GoTestCompile` in the current test file, you should see the following:
+-->
 
 ```
 vim-go: [test] SUCCESS
 ```
 
-### vimrc の改善
+### vimrc の改善 <!-- vimrc improvements -->
 
 * `:GoBuild` のときと同様にキーのコンビネーションで簡単に `:GoTest` を実行する
-ようなマッピングを追加できます。以下の設定を `.vimrc` に追加してください。
+ようなマッピングを追加できます。以下の設定を `.vimrc` に追加してください。 <!-- As with `:GoBuild` we can add a mapping to easily call `:GoTest` with a key
+combination. Add the following to your `.vimrc`:
+-->
 
 ```vim
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
 ```
 
 これで `<leader>t` で簡単にファイルをテストできます。
+<!--
+Now you can easily test your files via `<leader>t`
+-->
 
 * GoファイルのBuildをさらに簡単にしましょう。最初に、先ほど追加した以下のマッピ
-  ングを削除してください。
+  ングを削除してください。 <!-- Let's make building Go files simpler. First, remove the following mapping we added
+  previously: -->
 
 ```vim
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
@@ -324,6 +488,12 @@ autocmd FileType go nmap <leader>b  <Plug>(go-build)
 シームレスにするために、Goのファイルの種別をチェックして `:GoBuild` または
 `:GoTestCompile` を実行するような簡単な Vim の関数を作ることができます。
 以下のヘルパー関数を `.vimrc` に追加してください。
+<!--
+We're going to add an improved mapping. To make it seamless for
+any Go file we can create a simple Vim function that checks the type of the Go
+file, and executes `:GoBuild` or `:GoTestCompile`.  Below is the helper function
+you can add to your `.vimrc`:
+-->
 
 ```vim
 " run :GoBuild or :GoTestCompile based on the go file
@@ -341,25 +511,43 @@ autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 
 これで `<leader>b` を押せばいつでもシームレスの Go ファイルをビルドするか
 テストファイルをコンパイルするようになります。
+<!--
+Now whenever you hit `<leader>b` it'll build either your Go file or it'll
+compile your test files seamlessly.
+-->
 
 * デフォルトではリーダーショートカットは `\` として定義されています。
 私は `,` のほうがより便利だと気づいたので以下の設定 (これを .vimrc の
-先頭に入れてください) でリーダーを `,` にマップしています。
+先頭に入れてください) でリーダーを `,` にマップしています。 <!-- By default the leader shortcut is defined as: `\` I've mapped my leader to
+`,` as I find it more useful with the following setting (put this in the
+beginning of .vimrc): -->
 
 ```vim
 let mapleader = ","
 ```
 
 この設定をすれば、テストもテストでないファイルも `,b` で簡単にビルドできます。
+<!--
+So with this setting, we can easily build any test and non test files with `,b`.
+-->
 
-# カバレッジを見る
+# カバレッジを見る <!-- Cover it -->
 
 テストの世界により深く飛び込んでみましょう。テストは非常に大切です。
 Go はソースコードのカバレッジを表示するとても素晴らしい方法を提供しています。
 vim-go はVimを抜けることなくとてもエレガントにコードカバレッジを見るのを
 簡単にします。
+<!--
+Let's dive further into the world of tests. Tests are really important. Go
+has a really great way of showing the coverage of your source code. vim-go
+makes it easy to see the code coverage without leaving Vim in a very elegant
+way.
+-->
 
 まず `main_test.go` ファイルを以下のように戻しましょう。
+<!--
+Let's first change our `main_test.go` file back to:
+-->
 
 ```go
 package main
@@ -377,6 +565,9 @@ func TestBar(t *testing.T) {
 ```
 
 そして `main.go` を以下のようにします。
+<!--
+And `main.go` to
+-->
 
 
 ```go
@@ -407,10 +598,21 @@ func Qux(v string) string {
 tempfile` が実行されます。プロファイルの出力結果を解釈しカバレッジを反映
 するようにソースコードのハイライトを動的に変更します。実行結果を見ると、
 `Bar()` 関数に対してのテストしかないため、 `Bar()` 関数だけが緑色になります。
+<!--
+Now let us call `:GoCoverage`. Under the hood this calls `go test -coverprofile
+tempfile`. It parses the lines from the profile and then dynamically changes
+the syntax of your source code to reflect the coverage. As you see, because we
+only have a test for the `Bar()` function, that is the only function that is
+green. 
+-->
 
 ハイライトをクリアするには `:GoCoverageClear` を実行します。テストケースを
 追加してカバレッジがどのように変化するか見てみましょう。以下のコードを
 `main_test.go` に追加してください。
+<!--
+To clear the syntax highlighting you can call `:GoCoverageClear`. Let us add a
+test case and see how the coverage changes. Add the following to `main_test.go`:
+-->
 
 ```go
 func TestQuz(t *testing.T) {
@@ -429,37 +631,68 @@ func TestQuz(t *testing.T) {
 再び `:GoCoverage` を実行すると今度は `Quz` 関数もテストされてカバレッジが
 より広くなるのが見られるでしょう。 `:GoCoverageClear` を再度実行すると
 ハイライトがクリアされます。
+<!--
+If we call `:GoCoverage` again, you'll see that the `Quz` function is now
+tested as well and that it has a larger coverage. Call `:GoCoverageClear` again
+to clear the syntax highlighting.
+-->
 
 `:GoCoverage` と `:GoCoverageClear` を実行するのははセットで使われることが
 多いので実行して結果をクリアするのを簡単にする別のコマンド `:GoCoverageToggle`
 が用意されています。これはトグルとして動作し、一度実行するとカバレッジを表示し、
 再度実行するとカバレッジをクリアします。これらのコマンドをどのように使うかは
 あなたのワークフロー次第です。
+<!--
+Because calling `:GoCoverage` and `:GoCoverageClear` are used a lot together,
+there is another command that makes it easy to call and clear the result. You
+can also use `:GoCoverageToggle`. This acts as a toggle and shows the coverage,
+and when called again it clears the coverage.  It's up to your workflow how you
+want to use them.
+-->
 
 最後に、もし vim-go の内蔵ビューが好きでない場合は、 `:GoCoverageBrowser` を
 実行することもできます。これは裏で `go tool cover` を実行してHTMLページを
 作成しデフォルトブラウザで開きます。人によってはこちらのほうが好みでしょう。
+<!--
+Finally, if you don't like vim-go's internal view, you can also call
+`:GoCoverageBrowser`. Under the hood it uses `go tool cover` to create a HTML
+page and then opens it in your default browser. Some people like this more.
+-->
 
 `:GoCoverageXXX` 系のコマンドを使ってもどんな種類の中間ファイルも作らず
 あなたのワークフローを汚染しません。ですので不要なファイルを毎回消すような
 必要はありません。
+<!--
+Using the `:GoCoverageXXX` commands does not create any kind of temporary files
+and doesn't pollute your workflow. So you don't have to deal with removing
+unwanted files every time.
+-->
 
-### vimrc の改善
+### vimrc の改善 <!-- vimrc improvements -->
 
 以下の設定を `.vimrc` に追加してください。
+<!--
+Add the following to your `.vimrc`:
+-->
 
 ```vim
 autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
 ```
 
 この設定を追加すると `<leader>c` で `:GoCoverageToggle` を簡単に実行できます。
+<!--
+With this you can easily call `:GoCoverageToggle` with `<leader>c`
+-->
 
 
-# 編集する
+# 編集する <!-- Edit it -->
 
-### import文
+### import文 <!-- Imports -->
 
 以下のサンプルの `main.go` から始めましょう。
+<!--
+Let us start with a sample `main.go` file:
+-->
 
 ```go
 package main
@@ -475,15 +708,28 @@ func main() {
 されるのを見るでしょう。これはデフォルトで有効になっていますが、もし希望すれば
 (なぜ希望するかは謎ですが :)) `let g:go_fmt_autosave = 0` で無効にできます。
 私たちは `:GoFmt` コマンドも用意していて、それは裏で `gofmt` を実行します。
+<!--
+Let's start with something we know already. If we save the file, you'll see that
+it'll be formatted automatically. It's enabled by default but can be disabled
+if desired (not sure why you would though :)) with `let g:go_fmt_autosave = 0`.
+Optionally we also provide `:GoFmt` command, which runs `gofmt` under the hood.
+-->
 
 `"gopher"` の文字列を全て大文字で出力してみましょう。そのために `strings`
 パッケージを使用します。定義を以下のように変更しましょう。
+<!--
+Let's print the `"gopher"` string in all uppercase. For it we're going to use
+the `strings` package. Change the definition to:
+-->
 
 ```go
 fmt.Println(strings.ToUpper("gopher"))
 ```
 
 ビルドすると当然エラーが出ます。
+<!--
+When you build it you'll get an error of course:
+-->
 
 ```
 main.go|8| undefined: strings in strings.ToUpper
@@ -491,26 +737,54 @@ main.go|8| undefined: strings in strings.ToUpper
 
 このエラーが出るのは `strings` パッケージがインポートされていないからです。
 vim-go はimport文の宣言を操作するためにいくつかのコマンドを提供しています。
+<!--
+You'll see we get an error because the `strings` package is not imported. vim-go
+has a couple of commands to make it easy to manipulate the import declarations.
+-->
 
 移動してファイルを編集することも簡単にできますが、代わりに `:GoImport` という
 Vimコマンドを使います。このコマンドは指定したパッケージをimportパスに追加します。
 `:GoImport strings` と実行してください。 `strings` パッケージが追加されるのが
 見られるでしょう。このコマンドの素晴らしいところは補完をサポートしていることです。
 ですので `:GoImport s` とだけ入力してタブを押すことができます。
+<!--
+We can easily go and edit the file, but instead we're going to use the Vim
+command `:GoImport`. This command adds the given package to the import path.
+Run it via: `:GoImport strings`. You'll see the `strings` package is being
+added.  The great thing about this command is that it also supports
+completion. So you can just type `:GoImport s` and hit tab.
+-->
 
 importパスを編集するために `:GoImportAs` と `:GoDrop` も用意されています。
 `:GoImportAs` は `:GoImport` と同じですが、パッケージ名を変更することが
 可能です。例えば `:GoImportAs str strings` は `strings` を `str` という
 パッケージ名でインポートします。
+<!--
+We also have `:GoImportAs` and `:GoDrop` to edit the import paths.
+`:GoImportAs` is the same as `:GoImport`, but it allows changing the package
+name. For example `:GoImportAs str strings`, will import `strings` with the
+package name `str.`
+-->
 
 最後に `:GoDrop` はimport宣言からimportパスを簡単に削除できます。
 `:GoDrop strings` は `strings` をimport宣言から削除します。
+<!--
+Finally `:GoDrop` makes it easy to remove any import paths from the import
+declarations. `:GoDrop strings` will remove it from the import declarations.
+-->
 
 もちろんインポートパスを手動で操作するのはとても 2010 年っぽい (訳注: 時代遅れ)
 です。この問題を扱うもっとよいツールを提供しています。もしまだ聞いたことがなければ
 それは `goimports` と呼ばれています。 `goimports` は `gofmt` を置き換えるものです。
 使用方法は2通りあります。最初の(そして推奨される)使い方はファイルを保存したときに
 実行するように vim-go に伝えることです。
+<!--
+Of course manipulating import paths is so 2010. We have better tools to handle
+this case for us. If you haven't heard yet, it's called `goimports`.
+`goimports` is a replacement for `gofmt`. You have two ways of using it. The
+first (and recommended) way is telling vim-go to use it when saving the
+file:
+-->
 
 ```
 let g:go_fmt_command = "goimports"
@@ -520,14 +794,26 @@ let g:go_fmt_command = "goimports"
 書き換えます。コードベースが非常に巨大な場合は遅くなるかもしれないので `goimports`
 を好まない人もいます。このために私たちは `:GoImports` コマンド (最後の `s` に
 注意) も用意しています。これで明示的に `goimports` を実行することができます。
+<!--
+Now whenever you save your file, `goimports` will automatically format and also
+rewrite your import declarations. Some people do not prefer `goimports` as it
+might be slow on very large codebases. In this case we also have the
+`:GoImports` command (note the `s` at the end). With this, you can explicitly
+call `goimports`
+-->
 
 
-### テキストオブジェクト
+### テキストオブジェクト <!-- Text objects -->
 
 さらなる編集のチップスとトリックをお見せしましょう。関数を変更するのに使える
 2つのテキストオブジェクトがあります。 `if` と `af` です。 `if` は関数の内側を
 意味し関数の囲いの中身を選択できるようにします。 `main.go` を以下のように
 変更してください。
+<!--
+Let us show more editing tips/tricks. There are two text objects that we can
+use to change functions. Those are `if` and `af`. `if` means inner function and
+it allows you to select the content of a function enclosure. Change your `main.go` file to:
+-->
 
 
 ```go
@@ -546,6 +832,10 @@ func main() {
 
 `func` キーワードにカーソルを置いて、ノーマルモードで以下のコマンドを実行して
 何が起きるか見てください。
+<!--
+Put your cursor on the `func` keyword  Now execute the following in `normal`
+mode and see what happens:
+-->
 
 ```
 dif
@@ -558,6 +848,14 @@ dif
 私はまさにこういう機能を vim-go でサポートするためにmotionを書きました。
 これはGoのAST (訳注: 抽象構文木)を理解しているので非常に良いです。
 どんな感じか気になるって？ `main.go` を以下のように変更してください。
+<!--
+You'll see that the function body is removed. Because we used the `d` operator.
+Undo your changes with `u`. The great thing is that your cursor can be anywhere
+starting from the `func` keyword until the closing right brace `}`. It uses the tool
+[motion](https://github.com/fatih/motion) under the hood. I wrote motion
+explicitly for vim-go to support features like this. It's Go AST aware and thus
+its capabilities are really good. Like what you might ask? Change `main.go` to:
+-->
 
 ```go
 package main
@@ -579,13 +877,27 @@ func Bar() string {
 問題を引き起こしました。例えばこの例で、カーソルを無名関数の `func` キーワード
 に置いてノーマルモードで `dif` を実行してください。(訳注: 今のバージョンでは)
 無名関数のボディだけが正しく削除されるのが見られるでしょう。
+<!--
+Previously we were using regexp-based text objects, which leads to problems.
+For example in this example, put your cursor to the anonymous functions' `func`
+keyword and execute `dif` in `normal` mode. You'll see that only the body of
+the anonymous function is deleted.
+-->
 
 ここまでは `d` オペレータ (削除) だけを使ってきました。しかし、これはあなた
 次第で、例えば `vif` を使って選択もできますし、 `yif` でヤンク(コピー)も
 できます。
+<!--
+We have only used the `d` operator (delete) so far. However it's up to you. For
+example you can select it via `vif` or yank(copy) with `yif`.
+-->
 
 さらに `af` もあり、これは `a function` という意味です。このテキストオブジェクト
 は関数の宣言全体を含みます。 `main.go` を以下のように変更してください。
+<!--
+We also have `af`, which means `a function`. This text object includes the
+whole function declaration. Change your `main.go` to:
+-->
 
 
 ```go
@@ -616,11 +928,27 @@ func bar() string {
 コメントの先頭行にカーソルを置いて `vif` を実行し次に `vaf` を実行してみて
 ください。カーソルが関数の外側にあるにも関わらず、最初は関数のボディが選択され、
 次は関数のコメントも選択されることがわかるでしょう。
+<!--
+So here is the great thing. Because of `motion` we have full knowledge about
+every single syntax node. Put your cursor on top of the `func`  keyword or
+anywhere below or above (doesn't matter). If you now execute `vaf`, you'll see
+that the function declaration is being selected, along with the doc comment as
+well! You can for example delete the whole function with `daf`, and you'll see
+that the comment is gone as well. Go ahead and put your cursor on top of the
+comment and execute `vif` and then `vaf`. You'll see that it selects the
+function body, even though your cursor is outside the function, or it selects
+the function comments as well.
+-->
 
 これはとても強力です。これは全て
 `let g:go_textobj_include_function_doc = 1` という設定で `motion` から得られる
 情報のおかげです。コメントが関数宣言の一部として扱われてほしくない場合は
 以下の設定で簡単に無効にできます。
+<!--
+This is really powerful and this all is thanks to the knowledge we have from
+`let g:go_textobj_include_function_doc = 1` `motion`. If you don't like comments
+being a part of the function declaration, you can easily disable it with:
+-->
 
 ```vim
 let g:go_textobj_include_function_doc = 0
@@ -628,16 +956,30 @@ let g:go_textobj_include_function_doc = 0
 
 `motion` についてもっと知りたければ、より詳細を書いたブログ記事を参照してください。
 [Treating Go types as objects in vim](https://medium.com/@farslan/treating-go-types-as-objects-in-vim-ed6b3fad9287#.45q2rtqgf)
+<!--
+If you are interested in learning more about `motion`, check out the blog post I wrote for
+more details: [Treating Go types as objects in vim](https://medium.com/@farslan/treating-go-types-as-objects-in-vim-ed6b3fad9287#.45q2rtqgf)
+-->
 
 (追加の任意の質問: `go/ast` パッケージを見ていませんが、ドキュメントコメント
 は関数宣言の一部なのかそうでないのかどちらでしょうか?)
+<!--
+(Optional question: without looking at the `go/ast` package, is the doc comment
+a part of the function declaration or not?)
+-->
 
-### 構造体リテラルの行分割と結合
+### 構造体リテラルの行分割と結合 <!-- Struct split and join -->
 Goの構造体リテラルを行分割と結合してくれる素晴らしいプラグインがあります。
 実際はGo用のプラグインではないのですが、Goの構造体もサポートしています。
 有効にするには `vimrc` の `plug` 定義の中にプラグインのディレクティブを追加
 し vim エディタ内で `:source ~/.vimrc` を実行し、 `:PlugInstall` を実行してください。
 例を示します。
+<!--
+There is a great plugin that allows you to split or join Go structs. It's
+actually not a Go plugin, but it has support for Go structs. To enable it add
+plugin directive between the `plug` definition into your `vimrc`, then do a `:source ~/.vimrc` in your vim editor and run
+`:PlugInstall`. Example:
+-->
 
 ```vim
 call plug#begin()
@@ -647,6 +989,9 @@ call plug#end()
 ```
 
 プラグインをインストールしたら `main.go` を以下のように変更してください。
+<!--
+Once you have installed the plugin, change the `main.go` file to:
+-->
 
 ```go
 package main
@@ -666,11 +1011,21 @@ func main() {
 これは構造体のリテラルを複数行に「分割」します。そして逆のこともできます。
 カーソルがまだ `foo` 変数にあったらノーマルモードで `gJ` を実行してください。
 フィールド定義が全て結合されて1行になるのが見られるでしょう。
+<!--
+Put your cursor on the same line as the struct expression. Now type `gS`. This
+will `split` the struct expression into multiple lines. And you can even
+reverse it. If your cursor is still on the `foo` variable, execute `gJ` in
+`normal` mode. You'll see that the field definitions are all joined.
+-->
 
 これはAST (抽象構文木) を理解するツールを使っていないので、例えばフィールドの
 先頭で `gJ` を押すと2つのフィールドだけが行結合されるのを見ることになるでしょう。
+<!--
+This doesn't use any AST-aware tools, so for example if you type `gJ` on top of
+the fields, you'll see that only two fields are joined.
+-->
 
-### スニペット
+### スニペット <!-- Snippets -->
 
 vim-go は2つのポピュラーなスニペットプラグインをサポートしています。
 [Ultisnips](https://github.com/SirVer/ultisnips) と
@@ -679,6 +1034,14 @@ vim-go は2つのポピュラーなスニペットプラグインをサポート
 インストールしてみましょう。 `vimrc` の `plug` ディレクティブの間に追加して
 vim エディタ内で :`source ~/.vimrc` を実行し、`:PlugInstall` を実行しましょう。
 例を示します。
+<!--
+Vim-go supports two popular snippet plugins.
+[Ultisnips](https://github.com/SirVer/ultisnips) and
+[neosnippet](https://github.com/Shougo/neosnippet.vim). By default, 
+if you have `Ultisnips` installed it'll work.  Let us install `ultisnips`
+first. Add it between the `plug` directives in your `vimrc`, then do a `:source ~/.vimrc` in your vim editor and then run
+`:PlugInstall`. Example:
+-->
 
 ```vim
 call plug#begin()
@@ -690,9 +1053,18 @@ call plug#end()
 多くの有用なスニペットがあります。私たちの最新のスニペットの完全な一覧を見るには
 https://github.com/fatih/vim-go/blob/master/gosnippets/UltiSnips/go.snippets
 を参照してください。
+<!--
+There are many helpful snippets. To see the full list check our current
+snippets:
+https://github.com/fatih/vim-go/blob/master/gosnippets/UltiSnips/go.snippets
+-->
 
 私は最も使っているいくつかのスニペットを紹介しましょう。 `main.go` の内容を
 以下のように変更してください。
+<!--
+Let me show some of the snippets that I'm using the most. Change your `main.go`
+content to:
+-->
 
 ```go
 package main
@@ -724,6 +1096,11 @@ func main() {
 なければ panic するようにしてみましょう。インサートモードで `errp` を押して
 `tab` を押すだけです。スニペットが展開されてカーソルが `panic()` 関数の内側
 に移動するのが見られるでしょう。
+<!--
+Let's put our cursor just after the `newFoo()` expression. Let's panic here if
+the err is non-nil. Type `errp` in insert mode and just hit `tab`. You'll see
+that it'll be expanded and put your cursor inside the `panic()`` function:
+-->
 
 ```
 if err != nil {
@@ -732,12 +1109,29 @@ if err != nil {
           カーソル位置
 }
 ```
+<!--
+```
+if err != nil {
+    panic( )
+          ^
+          cursor position
+}
+```
+-->
 
 panicの中身に `err` と入力して `json.Marshal` の行にカーソルを移動してください。
 同様にコードを追加しましょう。
+<!--
+Fill the panic with `err` and move on to the `json.Marshal` statement. Do the
+same for it.
+-->
 
 今度は `out` 変数を出力してみましょう。変数を出力するのはとても頻繁に行われる
 ので、いくつかのスニペットが用意されています。
+<!--
+Now let us print the variable `out`. Because variable printing is so popular,
+we have several snippets for it:
+-->
 
 ```
 fn -> fmt.Println()
@@ -750,9 +1144,20 @@ lf -> log.Printf()
 コピーします。試してみてください。main関数の最後にカーソルを移動して `ff` と
 タイプしタブを入力します。そして `string(out)` とタイプするとタイプした文字列が
 フォーマット文字列と可変長引数の両方に入力されるのが見られるでしょう。
+<!--
+Here `ff` and `lf` are special. They dynamically copy the variable name into
+the format string as well. Try it yourself. Move your cursor to the end of the
+main function and type `ff` and hit tab. After expanding the snippet you can
+start typing. Type `string(out)` and you'll see that both the format string and
+the variadic arguments will be filled with the same string you have typed.
+-->
 
 これはデバッグ用に変数を出力するのを素早く行うのに非常に便利です。
 `:GoRun` で実行すると以下のような出力が見られるはずです。
+<!--
+This comes very handy to quickly print variables for debugging.
+Run your file with `:GoRun` and you should see the following output:
+-->
 
 ```
 string(out) = {"Message":"foo loves bar","Ports":[80],"ServerName":"Foo"}
@@ -765,6 +1170,13 @@ string(out) = {"Message":"foo loves bar","Ports":[80],"ServerName":"Foo"}
 `Message string` の行の最後にカーソルを移動してください (訳注: Message string
 の行でノーマルモードで `A` を入力して行末に追加するようにしてインサートモードに
 切り替えさらにスペースを1つ押します)。
+<!--
+Great. Now let me show one last snippet that I think is very useful. As you see
+from the output the fields `Message` and `Ports` begin with uppercase
+characters. To fix it we can add a json tag to the struct field. vim-go makes it
+very easy to add field tags. Move your cursor to the end of the `Message`
+string line in the field:
+-->
 
 ```
 type foo struct {
@@ -772,6 +1184,14 @@ type foo struct {
                    ^ ここにカーソルを置いてください。
 }
 ```
+<!--
+```
+type foo struct {
+    Message string .
+                   ^ put your cursor here 
+}
+```
+-->
 
 インサートモードで `json` とタイプしタブを押します。自動的に有効なフィールド
 タグに展開されるのが見られるはずです。フィールド名は自動的に小文字に変換されて
@@ -779,6 +1199,12 @@ type foo struct {
 (訳注: タブを1回押した時点では `message` が選択された状態になっていてそこから
 タイプすると違う文字列に変更することもできます。逆に `message` のまま確定するには
 もう一度タブを押せばOKです)。
+<!--
+In `insert` mode, type `json` and hit tab. You'll see that it'll be
+automatically expanded to valid field tag. The field name is converted
+automatically to a lowercase and put there for you. You should now see the
+following:
+-->
 
 ```
 type foo struct {
@@ -789,6 +1215,11 @@ type foo struct {
 とても素晴らしいです。でももっと良くできます！さらに進んで `ServerName` フィールド
 のスニペット展開をしてみましょう。今度は `server_name` と変換されます。
 素晴らしいでしょう？
+<!--
+It's really amazing. But we can do even better! Go ahead and create a
+snippet expansion for the `ServerName` field. You'll see that it's converted to
+`server_name`. Amazing right?
+-->
 
 ```go
 type foo struct {
@@ -798,9 +1229,9 @@ type foo struct {
 }
 ```
 
-### vimrc の改善
+### vimrc の改善 <!-- vimrc improvements -->
 
-* 忘れずに `gofmt` を `goimports` に変更しましょう。
+* 忘れずに `gofmt` を `goimports` に変更しましょう。 <!-- Don't forget to change `gofmt` to `goimports` -->
 
 ```vim
 let g:go_fmt_command = "goimports"
@@ -809,7 +1240,9 @@ let g:go_fmt_command = "goimports"
 * ファイルを保存すると、 `gofmt` がそのファイルをパーズしたときにエラーがあれば
   それを表示します。パーズエラーがあればクイックフィクスリスト内に表示します。
   これはデフォルトで有効になっています。これが好きでない人もいます。無効にするには
-  以下の設定を追加してください。
+  以下の設定を追加してください。 <!-- When you save your file, `gofmt` shows any errors during parsing the file. If
+  there are any parse errors it'll show them inside a quickfix list. This is
+  enabled by default. Some people don't like it. To disable it add: -->
 
 ```vim
 let g:go_fmt_fail_silently = 1
@@ -818,25 +1251,38 @@ let g:go_fmt_fail_silently = 1
 * 大文字小文字がどのように変換されるかを変更することができます。デフォルトでは
   vim-go は `snake_case` を使います。でも希望すれば `camelCase` を使うことも
   できます。例えばデフォルト値をキャメルケースに変更したい場合は以下の設定が
-  使えます。
+  使えます。 <!-- You can change which case it should apply while converting. By default vim-go
+  uses `snake_case`. But you can also use `camelCase` if you wish. For example
+  if you wish to change the default value to camel case use the following
+  setting: -->
 
 ```vim
 let g:go_addtags_transform = "camelcase"
 ```
 
-# 美しく表示する
+# 美しく表示する <!-- Beautify it -->
 
 デフォルトでは限定されたシンタクスハイライトのみが有効になっています。
 これには2つの大きな理由があります。1つめは人々は色が多いと気が散るので
 色が多いのが好きではないことです。2つめの理由はVimのパフォーマンスに
 大きく影響を与えることです。有効にするには明示的に設定する必要があります。
 まず `.vimrc` に以下の設定を追加してください。
+<!--
+By default we only have a limited syntax highlighting enabled. There are two
+main reasons. First is that people don't like too much color because it causes
+too much distraction. The second reason is that it impacts
+the performance of Vim a lot. We need to enable it explicitly. First add the
+following settings to your `.vimrc`:
+-->
 
 ```vim
 let g:go_highlight_types = 1
 ```
 
 これで以下のコードの `bar` と `foo` がハイライトされます。
+<!--
+This highlights the `bar` and `foo` below:
+-->
 
 ```
 type foo struct{
@@ -847,12 +1293,18 @@ type bar interface{}
 ```
 
 さらに以下の設定を追加します。
+<!--
+Adding the following:
+-->
 
 ```vim
 let g:go_highlight_fields = 1
 ```
 
 すると以下のコードの `quz` がハイライトされます。
+<!--
+Will highlight the `quz` below:
+-->
 
 ```go
 type foo struct{
@@ -863,8 +1315,22 @@ type foo struct{
 f := foo{quz:"QUZ"}
 f.quz # ここの quz がハイライトされます
 ```
+<!--
+```go
+type foo struct{
+  quz string
+}
+
+
+f := foo{quz:"QUZ"}
+f.quz # quz here will be highlighted
+```
+-->
 
 以下の設定を追加すると
+<!--
+If we add the following:
+-->
 
 ```vim
 let g:go_highlight_functions = 1
@@ -872,6 +1338,11 @@ let g:go_highlight_functions = 1
 
 今度は宣言内の関数名とメソッド名もハイライトされます。 `Foo` と `main` が新たに
 ハイライトされますが、`Println` は呼び出しなのでハイライトされません。
+<!--
+We are now also highlighting function and method names in declarations. `Foo`
+and `main` will now be highlighted, but `Println` is not as that is an
+invocation:
+-->
 
 ```go
 func (t *T) Foo() {}
@@ -882,12 +1353,19 @@ func main() {
 ```
 
 関数とメソッドの呼び出しもハイライトしたい場合は、以下の設定を追加してください。
+<!--
+If you also want to highlight function and method invocations, add the
+following:
+-->
 
 ```vim
 let g:go_highlight_function_calls = 1
 ```
 
 すると `Println` もハイライトされます。
+<!--
+Now, `Println` will also be highlighted:
+-->
 
 ```go
 func (t *T) Foo() {}
@@ -899,6 +1377,10 @@ func main() {
 
 `let g:go_highlight_operators = 1` を追加すると以下の演算子がハイライト
 されます。
+<!--
+If you add `let g:go_highlight_operators = 1` it will highlight the following
+operators such as:
+-->
 
 ```
 - + % < > ! & | ^ * =
@@ -910,6 +1392,10 @@ func main() {
 
 `let g:go_highlight_extra_types = 1` を追加すると以下のような型もハイライト
 されます。
+<!--
+If you add `let g:go_highlight_extra_types = 1` the following extra types
+will be highlighted as well:
+-->
 
 ```
 bytes.(Buffer)
@@ -922,6 +1408,12 @@ unsafe.Pointer
 `go/build` のドキュメントを見ずにビルドタグを正しく書くのは簡単ではありません。
 まず `let g:go_highlight_build_constraints = 1` を設定して `main.go` を
 以下のように変更してみましょう。
+<!--
+Let's move on to more useful highlights. What about build tags? It's not easy
+to implement it without looking into the `go/build` document. Let us first add
+the following: `let g:go_highlight_build_constraints = 1` and change your
+`main.go` file to:
+-->
 
 ```
 // build linux
@@ -930,6 +1422,9 @@ package main
 
 `// build linux` の行がグレーになります。有効ではないことを示しています。
 `build` の前に `+` を追加して再度保存します。
+<!--
+You'll see that it's gray, thus it's not valid. Prepend `+` to the `build` word and save it again:
+-->
 
 ```
 // +build linux
@@ -939,10 +1434,20 @@ package main
 (訳注: まだグレーです。)
 なぜだかわかりますか？ `go/build` パッケージのドキュメントをよく読むと
 以下のように書かれているのに気づくでしょう。
+<!--
+Do you know why? If you read the `go/build` package you'll see that the
+following is buried in the document:
+-->
 
 > ... 他の行コメントの前に空行のみを入れる必要があります。
+<!--
+> ... preceded only by blank lines and other line comments.
+-->
 
 再度変更して保存してみましょう。
+<!--
+Let us change our content again and save it to:
+-->
 
 ```
 // +build linux
@@ -953,21 +1458,38 @@ package main
 有効なことを示す色で自動的にハイライトされるのを見るでしょう。これはとても
 素晴らしいです。 `linux` を他の何かに変更して有効な公式のタグになっているか
 チェックしてみましょう (`darwin` 、 `race` 、 `ignore` などがあります)。
+<!--
+You'll see that it automatically highlighted it in a valid way. It's really
+great. If you go and change `linux` to something you'll see that it also checks
+for valid official tags (such as `darwin`,`race`, `ignore`, etc... )
+-->
+
 
 別の似たような機能として `//go:generate` のGoディレクティブをハイライトする
 機能があります。 .vimrcに `let g:go_highlight_generate_tags = 1` を追加すると
 `go generate` コマンドで処理される有効なディレクティブがハイライトされます。
+<!--
+Another similar feature is to highlight the Go directive `//go:generate`. If
+you put `let g:go_highlight_generate_tags = 1` into your vimrc, it'll highlight
+a valid directive that is processed with the `go generate` command.
+-->
 
 ハイライトの設定はもっとたくさんあって、これらはほんの一部です。より多くの
 設定について知るには `:help go-settings` を参照してください。
+<!--
+We have a lot more highlight settings, these are just a sneak peek of it. For
+more check out the settings via `:help go-settings`
+-->
 
 
-### vimrc の改善
+### vimrc の改善 <!-- vimrc improvements -->
 
 * 一部の人はタブの表示され方が好きではありません。デフォルトではVimは1つのタブ
   を `8` つのスペースとして表示します。しかしVimでどのように表示されるかは
   私たち次第です。以下のように設定すれば1つのタブが4つのスペースとして表示
-  されます。
+  されます。 <!-- Some people don't like how the tabs are shown. By default Vim shows `8`
+  spaces for a single tab. However it's up to us how to represent in Vim. The
+  following will change it to show a single tab as 4 spaces: -->
 
 ```
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
@@ -976,10 +1498,16 @@ autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 この設定はタブをスペースに展開はしません。1つのタブを `4` つのスペースとして
 表示するだけです。1段のインデントを表すのに `4` つのスペースを使います。
 (訳注: この設定の場合見た目は `4` つのスペースですが入力されるのは1つのタブです)。
+<!--
+This setting will not expand a tab into spaces. It'll show a single tab as `4`
+spaces. It will use `4` spaces to represent a single indent.
+-->
 
 * 多くの人が私のカラースキームについて質問します。私は `molokai` を少し
 修正したものを使っています。これを有効にするにはプラグイン定義の間に以下の
-Plug ディレクティブを追加してください。
+Plug ディレクティブを追加してください。 <!-- A lot of people ask for my colorscheme. I'm using a slightly modified
+`molokai`. To enable it add the Plug directive just between the plug
+definitions: -->
 
 ```vim
 call plug#begin()
@@ -990,6 +1518,10 @@ call plug#end()
 
 さらに以下の設定を追加するとオリジナルのカラースキームと256色バージョンの
 molokai を有効にできます。
+<!--
+Also add the following to enable molokai with original color scheme and 256
+color version:
+-->
 
 ```vim
 let g:rehash256 = 1
@@ -1000,6 +1532,11 @@ colorscheme molokai
 設定を追加したらVimを再起動して ``:source ~/.vimrc` を実行し :PlugInstall` を
 実行してください。これでプラグインがダウンロードされインストールされます。
 プラグインがインストールされたら再びVimを再起動してください。
+<!--
+After that restart Vim and call `:source ~/.vimrc`, then `:PlugInstall`. This will pull the plugin
+and install it for you. After the plugin is installed, you need to restart Vim
+again.
+-->
 
 # チェックする
 
