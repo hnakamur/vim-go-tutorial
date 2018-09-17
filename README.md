@@ -1,12 +1,13 @@
 # vim-go チュートリアル <!-- vim-go-tutorial -->
-<!-- The original English version is https://github.com/fatih/vim-go-tutorial/commit/a21f62873fe50a605969b40e7a29af93e24500e3 -->
 
 これは vim-go のチュートリアルです。 vim-go のインストール方法と使い方についての簡単なチュートリアルとなっています。
 <!--
 Tutorial for vim-go. A simple tutorial on how to install and use vim-go.
 -->
 
-(訳注: このチュートリアルは [fatih/vim-go-tutorial: Tutorial for vim-go](https://github.com/fatih/vim-go-tutorial) を翻訳したものです。修正・改善がある場合はぜひプルリクエストを送ってください！)
+(訳注: このチュートリアルは [fatih/vim-go-tutorial: Tutorial for vim-go](https://github.com/fatih/vim-go-tutorial) を翻訳したものです。今は
+[Merge pull request #71 from aitva/master · fatih/vim-go-tutorial@648d40f](https://github.com/fatih/vim-go-tutorial/commit/648d40ff441337745bac1254cb8232732d092109) のコミットに対応しています。
+修正・改善がある場合はぜひプルリクエストを送ってください！)
 
 # 目次
 
@@ -42,6 +43,7 @@ Tutorial for vim-go. A simple tutorial on how to install and use vim-go.
   * [インターフェースを実装するメソッドスタブ](#インターフェースを実装するメソッドスタブ) <!-- [Method stubs implementing an interface](#method-stubs-implementing-an-interface)
  -->
 15. [シェアする](#シェアする) <!-- [Share it](#share-it) -->
+16. [HTML テンプレート](#html-テンプレート) <!-- [HTML template](#html-template) -->
 
 # クイックセットアップ <!-- Quick Setup -->
 
@@ -3450,6 +3452,21 @@ can manually set the browser via:
 ```
 let g:go_play_browser_command = "chrome"
 ```
+
+# HTML テンプレート <!-- HTML template -->
+
+Go の HTML テンプレートのシンタクスハイライトはデフォルトでは `.tmpl` ファイルに
+対して有効になっています。別のファイル種別に対して有効にしたい場合は、 `.vimrc` に
+以下の設定を追加してください。
+<!--
+By default syntax highlighting for Go HTML template is enabled for `.tmpl` files.
+If you want to enable it for another filetype add the following setting to your `.vimrc`:
+-->
+
+```
+au BufRead,BufNewFile *.gohtml set filetype=gohtmltmpl
+```
+
 
 # 寄付 <!-- Donation -->
 
