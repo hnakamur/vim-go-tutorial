@@ -1,4 +1,5 @@
 # vim-go チュートリアル <!-- vim-go-tutorial -->
+<!-- The original English version is https://github.com/fatih/vim-go-tutorial/commit/a21f62873fe50a605969b40e7a29af93e24500e3 -->
 
 これは vim-go のチュートリアルです。 vim-go のインストール方法と使い方についての簡単なチュートリアルとなっています。
 <!--
@@ -151,7 +152,7 @@ For whole package run with `:GoRun`.
 表示されるはずです。
 <!--
 Replace `vim-go` with `Hello Gophercon`. Let us compile the file instead of running it.
-For this we have `:GoBuild`. If you call it, you should see this message: 
+For this we have `:GoBuild`. If you call it, you should see this message:
 -->
 
 ```
@@ -161,7 +162,7 @@ vim-go: [build] SUCCESS
 裏では `go build` が実行されますが、それよりは少し賢いです。以下の点が異なります。
 <!--
 Under the hood it calls `go build`, but it's a bit smarter. It does a couple of
-things differently: 
+things differently:
 -->
 
 * バイナリは作られません。 `:GoBuild` を複数回実行しても作業領域を汚染
@@ -192,7 +193,7 @@ func main() {
 
 ファイルを保存して再度 `:GoBuild` を実行してください。
 <!--
-Save the file and call `:GoBuild` again. 
+Save the file and call `:GoBuild` again.
 -->
 
 今回はクイックフィクスビューが開きます。エラー間をジャンプするのに
@@ -603,7 +604,7 @@ Now let us call `:GoCoverage`. Under the hood this calls `go test -coverprofile
 tempfile`. It parses the lines from the profile and then dynamically changes
 the syntax of your source code to reflect the coverage. As you see, because we
 only have a test for the `Bar()` function, that is the only function that is
-green. 
+green.
 -->
 
 ハイライトをクリアするには `:GoCoverageClear` を実行します。テストケースを
@@ -1037,7 +1038,7 @@ vim エディタ内で :`source ~/.vimrc` を実行し、`:PlugInstall` を実�
 <!--
 Vim-go supports two popular snippet plugins.
 [Ultisnips](https://github.com/SirVer/ultisnips) and
-[neosnippet](https://github.com/Shougo/neosnippet.vim). By default, 
+[neosnippet](https://github.com/Shougo/neosnippet.vim). By default,
 if you have `Ultisnips` installed it'll work.  Let us install `ultisnips`
 first. Add it between the `plug` directives in your `vimrc`, then do a `:source ~/.vimrc` in your vim editor and then run
 `:PlugInstall`. Example:
@@ -1188,7 +1189,7 @@ type foo struct {
 ```
 type foo struct {
     Message string .
-                   ^ put your cursor here 
+                   ^ put your cursor here
 }
 ```
 -->
@@ -1538,14 +1539,24 @@ and install it for you. After the plugin is installed, you need to restart Vim
 again.
 -->
 
-# チェックする
+# チェックする <!-- Check it -->
 
 これまでの例で多くのコマンドが何か問題があったらクイックフィクスウィンドウを
 表示するのを見てきました。例えば `:GoBuild` は (もしあれば) コンパイル出力
 からエラーを表示します。あるいは例えば `:GoFmt` はカレントファイルを整形する
 際にパーズエラーがあればそれを表示します。
+<!--
+From the previous examples you saw that we had many commands that would show
+the quickfix window when there was an issue. For example `:GoBuild` shows
+errors from the compile output (if any). Or for example `:GoFmt` shows the
+parse errors of the current file while formatting it.
+-->
 
 私たちには他にも実行してその後エラー、警告、提案を集める多くのコマンドがあります。
+<!--
+We have many other commands that allows us to call and then collect errors,
+warnings or suggestions.
+-->
 
 例えば `:GoLint` です。裏では `golint` というGoのコードをより慣用的にする
 変更を提案してくれるコマンドを実行します。また `:GoVet` もあり、こちらは
@@ -1554,6 +1565,15 @@ again.
 ツールを作った人がいます。このツールは `gometalinter` と呼ばれています。
 そして vim-go は `:GoMetaLinter` コマンドでこれをサポートしています。
 これは何をしてくれるのでしょう？
+<!--
+For example `:GoLint`. Under the hood it calls `golint`, which is a command
+that suggests changes to make Go code more idiomatic. There
+is also `:GoVet`, which calls `go vet` under the hood. There are many other
+tools that check certain things. To make it easier, someone decided to
+create a tool that calls all these checkers. This tool is called
+`gometalinter`. And vim-go supports it via the command `:GoMetaLinter`. So what
+does it do?
+-->
 
 あるGoのソースコードに対して `:GoMetaLinter` を単に実行すると、デフォルトでは
 `go vet` 、 `golint` と `errcheck` を同時に実行します。 `gometalinter` は全ての
@@ -1561,6 +1581,15 @@ again.
 実行すると vim-go はこれら全てのチェッカーの結果をクイックフィクスリスト内に
 表示します。 lint 、 vet と errcheck の結果の間を簡単にジャンプできます。
 このデフォルトの設定は以下のとおりです。
+<!--
+If you just call `:GoMetaLinter` for a given Go source code. By default it'll run
+`go vet`, `golint` and `errcheck` concurrently. `gometalinter` collects
+all the outputs and normalizes it to a common format. Thus if you call
+`:GoMetaLinter`, vim-go shows the result of all these checkers inside a
+quickfix list. You can then jump easily between the lint, vet and errcheck
+results. The setting for this default is as following:
+-->
+
 
 ```vim
 let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
@@ -1568,10 +1597,19 @@ let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 
 他にも多くのツールが有りこれらのリストは簡単にカスタマイズできます。
 もし `:GoMetaLinter` を実行すると上記のリストを自動的に使います。
+<!--
+There are many other tools and you can easily customize this list yourself. If
+you call `:GoMetaLinter` it'll automatically uses the list above.
+-->
 
 `:GoMetaLinter` は普通は速いので vim-go はファイルを保存したらいつでも
 (ちょうど `:GoFmt` のように) それを実行します。これを有効にするには
 `.vimrc` に以下の設定を追加します。
+<!--
+Because `:GoMetaLinter` is usually fast, vim-go also can call it whenever you
+save a file (just like `:GoFmt`). To enable it you need to add the following to
+your `.vimrc:`
+-->
 
 ```vim
 let g:go_metalinter_autosave = 1
@@ -1582,6 +1620,13 @@ let g:go_metalinter_autosave = 1
 実行し、 `:GoMetaLinter` を実行したときには他のチェッカーも実行するように
 カスタマイズ可能となるのでこれは素晴らしいです。以下の設定で自動保存機能に対して
 実行されるチェッカーをカスタマイズできます。
+<!--
+What's great is that the checkers for the autosave is different than what you
+would use for `:GoMetaLinter`.  This is great because you can customize it so only
+fast checkers are called when you save your file, but others if you call
+`:GoMetaLinter`. The following setting let you customize the checkers for the
+`autosave` feature.
+-->
 
 
 ```vim
@@ -1592,28 +1637,49 @@ let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 `:GoMetaLinter` の実行時間が長くなりすぎないように、指定したタイムアウトを
 超えたら実行をキャンセルするための設定もあります。デフォルトでは `5秒` ですが
 以下の設定で変更可能です。
+<!--
+As you see by default `vet` and `golint` are enabled. Lastly, to prevent
+`:GoMetaLinter` running for too long, we have a setting to cancel it after a
+given timeout. By default it is `5 seconds` but can be changed by the following
+setting:
+-->
 
 ```vim
 let g:go_metalinter_deadline = "5s"
 ```
 
-# ナビゲートする
+# ナビゲートする <!-- Navigate it -->
 
 これまで私たちは `main.go` と `main_test.go` の2つのファイル間だけでジャンプ
 していました。同じディレクトリに2つのファイルしかない場合は切り替えはとても
 簡単です。でもプロジェクトが時間とともにどんどん大きくなってきたらどうでしょうか？
 あるいはファイル自体がとても巨大になりナビゲートするのが大変になってきたらどうでしょう？
+<!--
+So far we have only jumped between two files, `main.go` and `main_test.go`. It's
+really easy to switch if you have just two files in the same directory. But
+what if the project gets larger and larger with time? Or what if the file
+itself is so large that you have hard time navigating it?
+-->
 
 
-### 代替ファイル
+### 代替ファイル <!-- Alternate files -->
 
 vim-go はナビゲーションを改善するいくつかの方法を提供しています。まず
 Goのソースファイルとそのテストファイルの間を素早くジャンプする方法を
 紹介します。
+<!--
+vim-go has several ways of improving navigation. First let me
+show how we can quickly jump between a Go source code and its test file.
+-->
 
 `foo.go` とそのテストファイル `foo_test.go` の両方があるとしましょう。
 これまでの例の `main.go` があればそれを開いてください。開いたら
 以下の Vim コマンドを実行してください。
+<!--
+Suppose you have both a `foo.go` and its equivalent test file `foo_test.go`.
+If you have `main.go` from the previous examples with its test file you can
+also open it. Once you open it just execute the following Vim command:
+-->
 
 ```vim
 :GoAlternate
@@ -1626,13 +1692,27 @@ Goのソースファイルとそのテストファイルの間を素早くジャ
 非常に近いです。このプラグインは `.c` と `.h` ファイルの間でジャンプします。
 私たちの場合は `:GoAlternate` がテストと非テストファイルの間の切り替えに
 使われます。
+<!--
+You'll see that you switched immediately to `main_test.go`. If you execute it
+again, it'll switch to `main.go`. `:GoAlternate` works as a toggle and is
+really useful if you have a package with many test files.  The idea is very
+similar to the plugin [a.vim](https://github.com/vim-scripts/a.vim) command
+names. This plugin jumps between a `.c` and `.h` file. In our case
+`:GoAlternate` is used to switch between a test and non-test file.
+-->
 
-### 定義へジャンプ
+### 定義へジャンプ <!-- Go to definition -->
 
 最も使われる機能の一つが `定義へジャンプ` です。 vim-go は当初から
 `:GoDef` コマンドを持っており、あらゆる識別子の宣言箇所にジャンプする
 ことができます。まず `main.go` を作って、実際に動く様子を見てみましょう。
 以下の内容で作成してください。
+<!--
+One of the most used features is `go to definition`. From the beginning, vim-go
+had the `:GoDef` command that jumps to any identifier's declaration. Let
+us first create a `main.go` file to show it in action. Create it with the
+following content:
+-->
 
 ```go
 package main
@@ -1655,12 +1735,24 @@ func main() {
 さて定義へジャンプする方法はいくつかあります。例えばmain関数の直後の `T`
 構造体リテラルの先頭にカーソルを置いて `:GoDef` コマンドを実行すると
 型の定義にジャンプします。
+<!--
+Now we have here several ways of jumping to declarations. For example if you put
+your cursor on top of `T` expression just after the main function and call
+`:GoDef` it'll jump to the type declaration.
+-->
 
 main関数のすぐ後の `t` 変数の宣言の先頭にカーソルを置いて `:GoDef` を
 実行すると何も起きません。これはジャンブする先がない (訳注: すでに宣言の
 場所にいる) からです。でも数行下に移動して `fmt.Printf()` の中で使われている
 `t` 変数にカーソルを移動して `:GoDef` を実行すると、変数の宣言箇所にジャンプ
 するのが見られるでしょう。
+<!--
+If you put your cursor on top of the `t` variable declaration just after the
+main function and call `:GoDef`, you'll see that nothing will happen. Because
+there is no place to go, but if you scroll down a few lines and put your cursor
+to the `t` variable used in `fmt.Printf()` and call `:GoDef`, you'll see that
+it jumped to the variable declaration.
+-->
 
 `:GoDef` はローカルスコープで機能するだけではなくグローバルでも (`GOPATH`
 の範囲で) 機能します。例えば、 `Printf()` 関数の先頭にカーソルを置いて
@@ -1668,6 +1760,14 @@ main関数のすぐ後の `t` 変数の宣言の先頭にカーソルを置い�
 これをとても頻繁に使用されるので vim-go はVimにビルトインのショートカット
 `gd` と `ctrl-]` の設定を上書きします。ですので `:GoDef` を実行する代わりに
 `gd` か `ctrl-]` を簡単に使用できます。
+<!--
+`:GoDef` not only works for local scope, it works also globally
+(across`GOPATH`).  If, for example, you put your cursor on top of the `Printf()`
+function and call `:GoDef`, it'll jump directly to the `fmt` package.  Because
+this is used so frequently, vim-go overrides the built in Vim shortcuts `gd`
+and `ctrl-]` as well. So instead of `:GoDef` you can easily use `gd` or
+`ctrl-]`
+-->
 
 一旦宣言にジャンプしたら、元の場所に戻りたいでしょう。デフォルトでは元の
 カーソル位置にジャンプする `ctrl-o` という Vim のショートカットがあります。
@@ -1676,6 +1776,16 @@ main関数のすぐ後の `t` 変数の宣言の先頭にカーソルを置い�
 末尾までスクロールし、また先頭に移動したりすると `ctrl-o` はそれらの位置も
 覚えてしまいます。ですので `:GoDef` を実行したときの元の位置に戻りたい場合
 `ctrl-o` を複数回押す必要があります。これは本当にうっとうしいです。
+<!--
+Once we jump to a declaration, we also might want to get back into our previous
+location. By default there is the Vim shortcut  `ctrl-o` that jumps to the
+previous cursor location. It works great when it does, but not good enough if
+you're navigating between Go declarations. If, for example, you jump to a file
+with `:GoDef` and then scroll down to the bottom, and then maybe to the top,
+`ctrl-o` will remember these locations as well. So if you want to jump back to
+the previous location when invoking `:GoDef`, you have to hit `ctrl-o` multiple
+times. And this is really annoying.
+-->
 
 でもこのショートカットを使う必要はありません。というのもvim-goはもっとよい
 実装を提供しているからです。まさにこれを実現する `:GoDefPop` というコマンド
@@ -1684,9 +1794,18 @@ main関数のすぐ後の `t` 変数の宣言の先頭にカーソルを置い�
 ファイル内で上下にスクロールしても機能します。そしてこれも非常に何度も使われる
 ため、私たちは `ctrl-t` というショートカットを用意しています。これは裏では
 `:GoDefPop` を実行します。ということで要約すると以下のようになります。
+<!--
+We don't need to use this shortcut though, as vim-go has a better implementation
+for you. There is a command `:GoDefPop` which does exactly this. vim-go
+keeps an internal stack list for all the locations you visit with `:GoDef`.
+This means you can jump back easily again via `:GoDefPop` to your older
+locations, and it works even if you scroll down/up in a file. And because this
+is also used so many times we have the shortcut `ctrl-t` which calls under the
+hood `:GoDefPop`. So to recap:
+-->
 
-* ローカルまたはグローバルに定義にジャンプするには `ctrl-]` か `gd` を使います。
-* 元の場所に戻るには `ctrl-t` を使います。
+* ローカルまたはグローバルに定義にジャンプするには `ctrl-]` か `gd` を使います。 <!-- Use `ctrl-]` or `gd` to jump to a definition, locally or globally -->
+* 元の場所に戻るには `ctrl-t` を使います。 <!-- Use `ctrl-t` to jump back to the previous location  -->
 
 別の疑問に移りましょう。ここまでジャンプしてきて最初の地点に戻りたいとしましょう。
 上に書いたように vim-go は `:GoDef` を実行して移動したすべての場所の履歴を
@@ -1694,13 +1813,27 @@ main関数のすぐ後の `t` 変数の宣言の先頭にカーソルを置い�
 これを実行するとカスタムウィンドウが開き、これまで移動した場所の一覧が
 表示されます。あとは希望する場所の行に移動してエンターキーを押すだけです。
 そして最後にスタックリストをクリアしたい場合は `:GoDefStackClear` を実行します。
+<!--
+Let us move on with another question, suppose you jump so far that you just
+want to back to where you started? As mentioned earlier,
+vim-go keeps an history of all your locations invoked via `:GoDef`. There is a
+command that shows all these and it's called `:GoDefStack`. If you call it,
+you'll see that a custom window with a list of your old locations will be
+shown. Just navigate to your desired location and hit enter.  And finally to
+clear the stack list anytime call `:GoDefStackClear`.
+-->
 
 
-### 関数の間を移動する
+### 関数の間を移動する <!-- Move between functions -->
 
 この前の例でジャンプしたい場所がわかっている場合は `:GoDef` が便利でした。
 でも次の目的地が何かわかっていない場合はどうでしょうか？あるいは関数の名前
 の一部しか知らない場合はどうでしょうか？
+<!--
+From the previous example we see that `:GoDef` is nice if you know where you want to
+jump. But what if you don't know what your next destination is? Or you just
+partially know the name of a function?
+-->
 
 `編集する` の項で私は `motion` と呼ばれるツールに言及しました。それは
 vim-go のためだけに作られたカスタムツールです。 `motion` は別の能力も
@@ -1708,6 +1841,14 @@ vim-go のためだけに作られたカスタムツールです。 `motion` は
 しています。私たちはこの機能の利点を活かして宣言の間をジャンプできます。
 2つのコマンドがありますが、特定のプラグインをインストールしないと利用可能に
 なりません。コマンドは以下の2つです。
+<!--
+In our `Edit it` section I mentioned a tool called `motion`, which is a
+custom built tool just for vim-go. `motion` has other capabilities as well.
+`motion` parses your Go package and thus has a great understanding of all
+declarations. We can take advantage of this feature for jumping between
+declarations. There are two commands, which are not available until you install
+a certain plugin. The commands are:
+-->
 
 ```
 :GoDecls
@@ -1719,12 +1860,21 @@ vim-go のためだけに作られたカスタムツールです。 `motion` は
 長い間 Vim を使っているユーザなら既にインストールしていることでしょう。
 インストールするには `plug` ディレクティブに以下の設定を追加して
 vim エディタ内で `:source ~/.vimrc` を実行し、 `:PlugInstall` コマンドを実行します。
+<!--
+First let us enable these two commands by installing the necessary plugin. The
+plugin is called [ctrlp](https://github.com/ctrlpvim/ctrlp.vim). Long-time Vim
+users have it installed already. To install it add the following line between
+your `plug` directives, then do a `:source ~/.vimrc` in your vim editor and call `:PlugInstall` to install it:
+-->
 
 ```vim
 Plug 'ctrlpvim/ctrlp.vim'
 ```
 
 インストールされたら、 `main.go` の中身を以下のように変更してください。
+<!--
+Once you have it installed, use the following `main.go` content:
+-->
 
 ```go
 package main
@@ -1753,6 +1903,9 @@ func BarFoo() string {
 ```
 
 そして `main_test.go` を以下の内容にします。
+<!--
+And a `main_test.go` file with the following content:
+-->
 
 ```go
 package main
@@ -1788,10 +1941,22 @@ func TestQuz(t *testing.T) {
 一覧をフィルタリングしてくれるのが見られます。エンターを押すとそこにジャンプ
 します。 `motion` のAST (抽象構文木) の機能とあいまい検索機能の組み合わせにより
 とても簡単に使えるにもかかわらず強力な機能を実現しています。
+<!--
+Open `main.go` and call `:GoDecls`. You'll see that `:GoDecls` shows all type
+and function declarations for you. If you type `ma` you'll see that `ctrlp`
+filters the list for you. If you hit `enter` it will automatically jump to it.
+The fuzzy search capabilities combined with `motion`'s AST capabilities brings
+us a very simple to use but powerful feature.
+-->
 
 例えば `:GoDecls` を実行して `foo` と入力します。すると `BarFoo` が絞り込み
 されます。 Go のパーザは非常に速く何百という宣言を持つ巨大なファイルでも
 非常によく機能します。
+<!--
+For example, call `:GoDecls` and write `foo`. You'll see that it'll filter
+`BarFoo` for you. The Go parser is very fast and works very well with large files
+with hundreds of declarations.
+-->
 
 ときにはカレントファイル内で検索するだけでは十分ではないこともあります。
 Go のパッケージは (テストのように) 複数のファイルを持ちます。
@@ -1800,24 +1965,52 @@ Go のパッケージは (テストのように) 複数のファイルを持ち�
 `:GoDeclsDir` が便利です。あるファイルのディレクトリ全体をパーズして
 そのディレクトリ (サブディレクトリは除く) のファイルの全ての宣言を
 一覧表示します。
+<!--
+Sometimes just searching within the current file is not enough. A Go package can
+have multiple files (such as tests). A type declaration can be in one file,
+whereas a some functions specific to a certain set of features can be in
+another file. This is where `:GoDeclsDir` is useful. It parses the whole
+directory for the given file and lists all the declarations from the files in the
+given directory (but not subdirectories).
+-->
 
 `:GoDeclsDir` を実行してみてください。今度は `main_test.go` ファイルに
 含まれる定義も一覧に追加されるのが見られるでしょう。 `Bar` とタイプすると
 `Bar` と `TestBar` 関数の両方が表示されます。全ての型と関数の宣言の
 概要を知りたいだけ、あるいはそれらにジャンプしたいときも、これは非常に
 素晴らしいです。
+<!--
+Call `:GoDeclsDir`. You'll see this time it also included the declarations from
+the `main_test.go` file as well. If you type `Bar`, you'll see both the `Bar`
+and `TestBar` functions. This is really great if you just want to get an
+overview of all type and function declarations, and also jump to them.
+-->
 
 質問を続けましょう。次の関数または前の関数に移動したいときはどうすれば
 良いでしょう？今カーソルがある関数のボディが長い場合はおそらく関数名が
 見えないでしょう。あるいは今いる関数と別の関数の間に別の宣言があるかも
 しれません。
+<!--
+Let's continue with a question. What if you just want to move to the next or
+previous function? If your current function body is long, you'll probably will
+not see the function names. Or maybe there are other declarations between the
+current and other functions.
+-->
 
 Vim には既に次の単語に移動する `w` や前の単語に移動する `b` という
 移動操作を提供しています。でもGoの抽象構文木に対して移動できるとしたら
 どうでしょう？例えば関数の宣言とか。
+<!--
+Vim already has motion operators like `w` for words or `b` for backwards words.
+But what if we could add motions for Go ast? For example for function declarations?
+-->
 
 vim-go では関数の間を移動する2つのモーションオブジェクトを (上書きして)
 提供しています。以下の2つです。
+<!--
+vim-go provides(overrides) two motion objects to move between functions. These
+are:
+-->
 
 
 ```
@@ -1829,25 +2022,49 @@ Vim はこれらのショートカットをデフォルトで持っています�
 ソースコードに適していて波括弧の間をジャンプするものです。私たちは
 もっとうまくやれます。私たちのこれまでの例のようにこの操作のために裏で
 `motion` が使われています。
+<!--
+Vim has these shortcuts by default. But those are suited for C source code and
+jumps between braces. We can do it better. Just like our previous example,
+`motion` is used under the hood for this operation
+-->
 
 `main.go` を開いてファイルの先頭に移動してください。ノーマルモードで `]]` と
 タイプして何が起きるか見てみましょう。 `main()` 関数にジャンプするのが
 見られるでしょう。もう一度 `]]` を押すと `Bar()` に移動します。
 `[[` を押すと `main()` 関数に戻ります。
+<!--
+Open `main.go` and move to the top of the file. In `normal` mode, type `]]` and
+see what happens. You'll see that you jumped to the `main()` function. Another
+`]]` will jump to `Bar()` If you hit `[[` it'll jump back to the `main()`
+function.
+-->
 
 `]]` と `[[` はカウントも受け付けます。例えば、再びファイルの先頭に移動して
 `3]]` と実行するとソースファイル内で3番めの関数にジャンプします。
 そしてさらに、これらは有効なモーションなので、操作とも組み合わせられます！
+<!--
+`]]` and `[[` also accepts `counts`. For example if you move to the top again
+and hit `3]]` you'll see that it'll jump to the third function in the source file.
+And going forward, because these are valid motions, you can apply operators to
+it as well!
+-->
 
 ファイルの先頭に移動して `d]]` と押すと次の関数の前の全てが削除されます。
 例えば1つの便利な使い方としては `v]]` と押して次に `]]` を押すと次の関数も
 選択されます。同様にして必要な関数を選択に追加していくことができます。
+<!--
+If you move your file to the top  and hit `d]]` you'll see that it deleted
+anything before the next function. For example one useful usage would be typing
+`v]]` and then hit `]]` again to select the next function, until you've done
+with your selection.
+-->
 
 
-### .vimrc の改善
+### .vimrc の改善 <!-- .vimrc improvements -->
 
 * 代替ファイルをどのように開くかを改善することができます。以下の設定を `.vimrc` に
-  追加してください。
+  追加してください。 <!-- We can improve it to control how it opens the alternate file. Add the
+  following to your `.vimrc`: -->
 
 
 ```vim
@@ -1864,6 +2081,14 @@ autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 そして `:AT` は新しいタブで開きます。これらのコマンドはあなたがどのように使うかに
 よって非常に生産性が高くなるので、これらのコマンドを定義しておくのは有用だと
 思います。
+<!--
+This will add new commands, called `:A`, `:AV`, `:AS` and `:AT`. Here `:A`
+works just like `:GoAlternate`, it replaces the current buffer with the
+alternate file. `:AV` will open a new vertical split with the alternate file.
+`:AS` will open the alternate file in a new split view and `:AT` in a new tab.
+These commands are very productive depending on how you use them, so I think
+it's useful to have them.
+-->
 
 * 定義にジャンプするコマンドファミリーは非常に強力でいて使うのは簡単です。
 裏ではデフォルトでは `guru` (以前は `oracle` と呼ばれていました) というツールを
@@ -1871,7 +2096,14 @@ autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 ベンダライズされたインポートや明白ではない他の多くの識別子についても機能します。
 以前は vim-go は `godef` を使っていて、これは問い合わせに応答するのが非常に
 速かったです。最新のリリースでは `:GoDef` に使うコマンドを切り替えることが
-簡単にできます。 `godef` を使うように戻すには以下の設定を追加してください。
+簡単にできます。 `godef` を使うように戻すには以下の設定を追加してください。 <!-- The "go to definition" command families are very powerful but yet easy to use.
+Under the hood it uses by default the tool `guru` (formerly `oracle`). `guru` has
+an excellent track record of being very predictable. It works for dot imports,
+vendorized imports and many other non-obvious identifiers. But sometimes it's
+very slow for certain queries. Previously vim-go was using `godef` which is
+very fast on resolving queries. With the latest release one can easily use or
+switch the underlying tool for `:GoDef`.  To change it back to `godef` use the
+following setting: -->
 
 ```vim
 let g:go_def_mode = 'godef'
@@ -1879,34 +2111,56 @@ let g:go_def_mode = 'godef'
 
 * 現状はデフォルトでは `:GoDecls` と `:GoDeclsDir` は型と関数の宣言を表示します。
   これは `g:go_decls_includes` の設定でカスタマイズ可能です。
-  デフォルトでは以下の設定になっています。
+  デフォルトでは以下の設定になっています。 <!-- Currently by default `:GoDecls` and `:GoDeclsDir` show type and function
+  declarations. This is customizable with the `g:go_decls_includes` setting. By
+  default it's in the form of: -->
 
 ```
 let g:go_decls_includes = "func,type"
 ```
 
 もし関数の宣言だけを表示したいときは、以下のように変更してください。
+<!--
+If you just want to show function declarations, change it to:
+-->
 
 ```
 let g:go_decls_includes = "func"
 ```
 
-# 理解する
+# 理解する <!-- Understand it -->
 
 コードを書き、編集し、変更するのはまずコードが何をしているか理解してからで
 ないと通常はできません。 vim-go はコードがいったいどういうことをしているのは
 理解するのを容易にする方法をいくつか提供しています。
+<!--
+Writing/editing/changing code is usually something we can do only if we first
+understand what the code is doing. vim-go has several ways to make it easy to
+understand what your code is all about.
+-->
 
-### ドキュメント検索
+### ドキュメント検索 <!-- Documentation lookup -->
 
 基本から始めましょう。 Go のドキュメントは非常に良く書けていて Go の抽象構文木
 にも高度に統合されています。あるコメントを書くだけでパーザーが簡単にそれを
 パーズし、抽象構文木のノードに関連付けることができます。抽象構文木からの
 ノードがあればドキュメント (もしあれば) を簡単に読むことができます！
+<!--
+Let's start with the basics. Go documentation is very well-written and is
+highly integrated into the Go AST as well. If you just write some comments, the
+parser can easily parse it and associate with any node in the AST. So what it
+means is that we can easily find the documentation in the reverse order. If
+you have the node from an AST, you can easily read the documentation (if you
+have it)!
+-->
 
 私たちは `:GoDoc` というコマンドを用意していてそれはカーソルの下の識別子に
 関連付けられたドキュメントを表示してくれます。 `main.go` の内容を以下のように
 変更しましょう。
+<!--
+We have a command called `:GoDoc` that shows any documentation associated with
+the identifier under your cursor. Let us change the content of `main.go` to:
+-->
 
 ```go
 package main
@@ -1932,6 +2186,11 @@ func sayYoo() string {
 `main` 関数の直後の `Println` の先頭にカーソルを置き `:GoDoc` を実行
 してください。スクラッチウィンドウが自動的に開きドキュメントを表示して
 くれるのが見られるでしょう。
+<!--
+Put your cursor on top of the `Println` function just after the `main` function
+and call `:GoDoc`. You'll see that it vim-go automatically opens a scratch
+window that shows the documentation for you:
+-->
 
 ```
 import "fmt"
@@ -1952,17 +2211,37 @@ vim-go は単に `go doc` を使っていましたが、バイト識別子に応
 幸運にも `gogetdoc` と呼ばれる非常に便利なコマンドがあり、このコマンドで
 ノードに対する抽象構文木のノードを解決、取得し、関連付けられた
 ドキュメンテーションコメントを出力することができます。
+<!--
+It shows the import path, the function signature and then finally the doc
+comment of the identifier. Initially vim-go was using plain `go doc`, but it
+has some shortcomings, such as not resolving based on a byte identifier. `go
+doc` is great for terminal usages, but it's hard to integrate into editors.
+Fortunately we have a very useful tool called `gogetdoc`, which resolves and
+retrieves the AST node for the underlying node and outputs the associated doc
+comment.
+-->
 
 このため `:GoDoc` はどんな種類の識別子に対しても機能します。カーソルを
 `sayHi()` に置いて `:GoDoc` を実行してもドキュメンテーションコメントが
 表示されるでしょう。そして `sayYoo()` にカーソルを置いて実行すると
 単に `no documentation` と表示されます。この抽象構文木ノードには
 ドキュメンテーションコメントが無いからです。
+<!--
+That's why `:GoDoc` works for any kind of identifier. If you put your cursor under
+`sayHi()` and call `:GoDoc` you'll see that it shows it as well. And if you put
+it under `sayYoo()` you'll see that it just outputs `no documentation` for AST
+nodes without doc comments.
+-->
 
 他の機能と同様に私たちはノーマルモードのデフォルトのショートカット `K`
 をオーバーライドして `man` (や他の何か) の代わりに `:GoDoc` を実行する
 ようにしています。ドキュメントを見つけるのはとても簡単で、ノーマルモード
 で `K` を押すだけです！
+<!--
+As usual with other features, we override the default normal shortcut `K` so
+that it invokes `:GoDoc` instead of `man` (or something else). It's really easy
+to find the documentation, just hit `K` in normal mode!
+-->
 
 `:GoDoc` は指定された識別子に対するドキュメントだけを表示します。しかし
 それは **ドキュメント エクスプローラ** ではありません。ドキュメントを
@@ -1972,22 +2251,44 @@ vim-go に含めるべきという未対応のバグがあります
 (訳注: 2017-07-24時点では vim-go の github レポジトリのイシューや
 プルリクエストには見当たらなかったので、いつか対応したいリスト的な
 ものだと推測します)。
+<!--
+`:GoDoc` just shows the documentation for a given identifier. But it's not a
+**documentation explorer**, if you want to explore the documentation there is
+third-party plugin that does it:
+[go-explorer](https://github.com/garyburd/go-explorer). There is an open bug to
+include it into vim-go.
+-->
 
-### 識別子の解決
+### 識別子の解決 <!-- Identifier resolution -->
 
 時々関数が何を受け付けて何を返すのか知りたいことがあるでしょう。あるいは
 カーソルの下にある識別子が何かを知りたいこともあるでしょう。このような
 質問はよくあるので私たちはそれに応えるコマンドを用意しています。
+<!--
+Sometimes you want to know what a function is accepting or returning. Or what
+the identifier under your cursor is. Questions like this are common and we have
+a command to answer it.
+-->
 
 同じ `main.go` を使い、 `Println` 関数の上に移動して `:GoInfo` を実行
 してください。関数のシグネチャがステータスラインに出力されるのが
 見られるでしょう。関数が何をするのかを見られるのでこれは非常に素晴らしい
 です。このおかげでわざわざジャンプしてシグネチャをチェックしなくても
 よくなります。
+<!--
+Using the same `main.go` file, go over the `Println` function and call
+`:GoInfo`. You'll see that the function signature is being printed in the
+status line. This is really great to see what it's doing, as you don't have to
+jump to the definition and check out what the signature is.
+-->
 
 `:GoInfo` を毎回実行するのは退屈です。より速く実行するために改善する
 ことができます。例によってより速くする方法はショートカットを追加する
 ことです。
+<!--
+But calling `:GoInfo` every time is tedious. We can make some improvements to
+call it faster. As always a way of making it faster is to add a shortcut:
+-->
 
 ```vim
 autocmd FileType go nmap <Leader>i <Plug>(go-info)
@@ -1997,6 +2298,11 @@ autocmd FileType go nmap <Leader>i <Plug>(go-info)
 でももう少し改善の余地があります。 vim-go にはカーソルを移動するたびに自動的に
 情報を表示するためのサポートがあります。有効にするには `.vimrc` に以下の
 設定を追加してください。
+<!--
+Now you easily call `:GoInfo` by just hitting `<leader>i`. But there is still
+room to improve it. vim-go has a support to automatically show the information
+whenever you move your cursor. To enable it add the following to your `.vimrc`:
+-->
 
 ```vim
 let g:go_auto_type_info = 1
@@ -2006,15 +2312,25 @@ let g:go_auto_type_info = 1
 更新されるようになります。デフォルトでは `800ms` 毎に更新します。これは
 vim の設定で `updatetime` という設定で変更することができます。 `100ms` に
 変更するには `.vimrc` に以下の設定を追加してください。
+<!--
+Now whenever you move your cursor onto a valid identifier, you'll see that your
+status line is updated automatically. By default it updates every `800ms`. This
+is a vim setting and can be changed with the `updatetime` setting. To change it
+to `100ms` add the following to your `.vimrc`
+-->
 
 ```vim
 set updatetime=100
 ```
 
-### 識別子のハイライト
+### 識別子のハイライト <!-- Identifier highlighting -->
 
 マッチする全ての識別子を素早く見たいことがあります。変数、関数などです。
 以下の Go コードがあるとします。
+<!--
+Sometimes we just want to quickly see all matching identifiers. Such as variables,
+functions, etc.. Suppose you have the following Go code:
+-->
 
 ```go
 package main
@@ -2040,9 +2356,20 @@ func sayHi() error {
 ハイライトされます。 `sayHi()` にカーソルを置いて実行すると `sayHi()` 関数の
 識別子が全てハイライトされます。クリアするには `:GoSameIdsClear` を
 実行すれば良いだけです。
+<!--
+If you put your cursor on top of `err` and call `:GoSameIds` you'll see that
+all the `err` variables get highlighted. Put your cursor on the `sayHi()`
+function call, and you'll see that the `sayHi()` function identifiers all are
+highlighted. To clear them just call `:GoSameIdsClear`
+-->
 
 毎回手動で実行しなくて済むようになればもっと便利です。 vim-go はマッチする
 識別子を自動的にハイライトできます。 `.vimrc` に以下の設定を追加してください。
+<!--
+This is more useful if we don't have to call it manually every time. vim-go
+can automatically highlight matching identifiers. Add the following to your
+`vimrc`:
+-->
 
 ```vim
 let g:go_auto_sameids = 1
@@ -2051,20 +2378,36 @@ let g:go_auto_sameids = 1
 vim を再起動するともう `:GoSameIds` を手動で実行する必要が無いことが
 わかるでしょう。マッチする識別子の変数が自動的にハイライトされるように
 なっています。
+<!--
+After restarting vim, you'll see that you don't need to call
+`:GoSameIds` manually anymore. Matching identifier variables are now highlighted
+automatically for you.
+-->
 
-### 依存パッケージとファイル
+### 依存パッケージとファイル <!-- Dependencies and files -->
 
 ご存知のようにパッケージは複数の依存パッケージとファイルから構成されます。
 ディレクトリ内に多くのファイルがあったとしても、 package 節が正しく
 書かれているファイルだけがパッケージの一部となります。
+<!--
+As you know a package can consist of multiple dependencies and files. Even
+if you have many files inside the directory, only the files that have the
+package clause correctly are part of a package.
+-->
 
 パッケージを構成するファイル一覧を見るには以下のコマンドを実行してください。
+<!--
+To see the files that make a package you can call the following:
+-->
 
 ```
 :GoFiles
 ```
 
 すると以下のように出力されます (私の `$GOPATH` は `~/Code/Go` に設定されています)。
+<!--
+which will output (my `$GOPATH` is set to `~/Code/Go`):
+-->
 
 ```
 ['/Users/fatih/Code/go/src/github.com/fatih/vim-go-tutorial/main.go']
@@ -2073,9 +2416,18 @@ vim を再起動するともう `:GoSameIds` を手動で実行する必要が�
 他にもファイルがあれば、それもリストされるでしょう。このコマンドはビルドの
 一部になる Go ファイルだけをリストすることに注意してください。テストファイル
 はリストされません。
+<!--
+If you have other files those will be listed as well. Note that this command is
+only for listing Go files that are part of the build. Test files will be not
+listed.
+-->
 
 ファイルが依存しているパッケージを見るには `:GoDeps` を実行してください。
 実行すると以下のように出力されるでしょう。
+<!--
+For showing the dependencies of a file you can call `:GoDeps`. If you call  it
+you'll see:
+-->
 
 ```
 ['errors', 'fmt', 'internal/race', 'io', 'math', 'os', 'reflect', 'runtime',
@@ -2090,11 +2442,21 @@ vim を再起動するともう `:GoSameIds` を手動で実行する必要が�
 ナビゲートし理解するためのエディター統合ツールです。全ての機能を見られる
 ユーザマニュアルがあります。
 [https://golang.org/s/using-guru](https://golang.org/s/using-guru)
+<!--
+The previous feature was using the `guru` tool under the hood. So let's talk a
+little bit about guru. So what is guru? Guru is an editor integrated tool for
+navigating and understanding Go code. There is a user manual that shows all the
+features: [https://golang.org/s/using-guru](https://golang.org/s/using-guru)
+-->
 
 ---
 
 このマニュアルに含まれる例と同じものを使って vim-go に統合している
 機能のいくつかを紹介しましょう。
+<!--
+Let us use the same examples from that manual to show some of the features we've
+integrated into vim-go:
+-->
 
 ```go
 package main
@@ -2131,6 +2493,12 @@ func (h handler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 `guru` の `referrers` モードを呼び出します。これは作業領域内の必要な
 パッケージ全てをスキャンして、選択された識別子への参照を見つけます。
 結果はローケーションリストになります。
+<!--
+Put your cursor on top of the `handler` and call `:GoReferrers`. This calls the
+`referrers` mode of `guru`, which finds references to the selected identifier,
+scanning all necessary packages within the workspace. The result will be a
+location list.
+-->
 
 ---
 
@@ -2138,10 +2506,21 @@ func (h handler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 ほぼ同じですが少しだけより進歩しています (より多くの情報を表示してくれます)。
 例えば、もし型のメソッドの組があればそれを表示してくれます。選択すると
 パッケージの宣言を表示します。
+<!--
+One of the modes of `guru` is also the `describe` mode. It's just like
+`:GoInfo`, but it's a little bit more advanced (it gives us more information).
+It shows for example the method set of a type if there is any. It shows the
+declarations of a package if selected.
+-->
 
 同じ `main.go` ファイルで続けましょう。 (`ServeHTTP` 関数内の)  `URL`
 フィールドか `req.URL` にカーソルを置いて `:GoDescribe` を実行してください。
 ロケーションリストが以下の内容で表示されます。
+<!--
+Let's continue with same `main.go` file.  Put the cursor on top of the `URL`
+field or `req.URL` (inside the `ServeHTTP` function). Call `:GoDescribe`.  You'll
+see a location list populated with the following content:
+-->
 
 ```
 main.go|27 col 48| reference to field URL *net/url.URL
@@ -2169,6 +2548,12 @@ main.go|27 col 48| Fields:
 でしょう。これは非常に有用なコマンドで、フィールドの定義が必要でその周りの
 コードを理解したいときに使えるコマンドです。他のいろいろな識別子で
 `:GoDescribe` を実行してみてどんな出力がされるか実験してみましょう。
+<!--
+You'll see that we can see the definition of the field, the method set and the
+`URL` struct's fields. This is a very useful command and it's there if you need
+it and want to understand the surrounding code. Try and experiment by calling
+`:GoDescribe` on various other identifiers to see what the output is.
+-->
 
 ---
 
@@ -2177,10 +2562,21 @@ main.go|27 col 48| Fields:
 あるとしましょう。あなたはその型がどのインタフェースを実装しているかを
 知りたいです。 `guru` の `implement` がまさにそれをしてくれて、型が
 実装しているインターフェースを探すのを手伝ってくれます。
+<!--
+One of the most asked questions is how to know the interfaces a type is
+implementing. Suppose you have a type and with a method set of several methods.
+You want to know which interface it might implement. The mode `implement` of
+`guru` just does it and it helps to find the interface a type implements.
+-->
 
 同じ前の `main.go` ファイルで続けましょう。 `main()` 関数直後の
 `handler` 識別子にカーソルを置いてください。 `:GoImplements` を実行すると
 ロケーションリストが以下の内容になるのが見られるでしょう。
+<!--
+Just continue with the same previous `main.go` file. Put your cursor on the
+`handler` identifier just after the `main()` function. Call `:GoImplements`
+You'll see a location list populated with the following content:
+-->
 
 
 ```
@@ -2191,6 +2587,11 @@ main.go|23 col 6| chan type handler
 1行目は選択した型で2行目はその型が実装しているインターフェースです。
 1つ型が多くのインターフェースを実装することが可能なのでナビゲートできる
 ようにロケーションリストを使っています。
+<!--
+The first line is our selected type and the second line will be the interface
+it implements. Because a type can implement many interfaces it's a location
+list.
+-->
 
 ---
 
@@ -2198,14 +2599,30 @@ main.go|23 col 6| chan type handler
 エラーは単なる値です。ですのでそれらはプログラムで生成されることができ、
 それゆえあらゆる型を表すことができます。 `guru` のマニュアルに書かれて
 いることを見てみましょう。
+<!--
+One of the `guru` modes that might be helpful is `whicherrs`. As you know
+errors are just values. So they can be programmed and thus can represent any
+type. See what the `guru` manual says:
+-->
 
 > whicherrs モードはエラーの型の値に現れうる可能な定数の組、グローバル
 > 変数、そして具象型を報告します。この情報はエラーを処理する際に、扱われて
 > きた全ての重要なケースをカバーしていることを確実にするために役立ちます。
+<!--
+> The whicherrs mode reports the set of possible constants, global variables,
+> and concrete types that may appear in a value of type error. This information
+> may be useful when handling errors to ensure all the important cases have
+> been dealt with.
+-->
 
 ではどのように使うのでしょうか？簡単です。引き続き同じ `main.go` ファイルを
 使います。 `http.ListenAndServe` から返される `err` 識別子にカーソルを
 置いてください。 `:GoWhicherrs` を実行すると以下の出力が見られるでしょう。
+<!--
+So how do we use it? It's easy. We still use the same `main.go` file. Put your
+cursor on top of the `err` identifier which is returned from `http.ListenAndServe`.
+Call `:GoWhicherrs` and you'll see the following output:
+-->
 
 ```
 main.go|12 col 6| this error may contain these constants:
@@ -2221,6 +2638,13 @@ main.go|12 col 6| this error may contain these dynamic types:
 するのに非常に有用です。このクエリには guru の `スコープ` を設定しておく
 必要があることに注意してください。 `スコープ` とは何か、どのようにして
 それを動的に変更するかについてはこの後すぐ説明します。
+<!--
+You'll see that the `err` value may be the `syscall.EINVAL` constant or it also
+might be the dynamic types `syscall.Errno` or `*net.OpError`. As you see this is
+really helpful when implementing custom logic to handle the error differently if
+needed. Note that this query needs a guru `scope` to be set. We'll going to
+cover in a moment what a `scope` is and how you can change it dynamically.
+-->
 
 ---
 
@@ -2229,8 +2653,18 @@ main.go|12 col 6| this error may contain these dynamic types:
 時折困難になります。より良く理解するために `guru` の `peers` モードがあります。
 これはチャンネルの演算子 (送信または受信の操作) について発生しうる送信／受信の
 組を表示します。
+<!--
+Let's continue with the same `main.go` file.  Go is famous for its concurrency
+primitives, such as channels. Tracking how values are sent between channels can
+sometimes be hard. To understand it better we have the `peers` mode of `guru`.
+This query shows the set of possible send/receives on the channel operand (send
+or receive operation).
+-->
 
 カーソルを次の式に移動して行全体を選択してください (訳注: 行全体の選択は不要でした)。
+<!--
+Move your cursor to the following expression and select the whole line:
+-->
 
 ```go
 ch <- n
@@ -2238,6 +2672,9 @@ ch <- n
 
 `:GoChannelPeers` を実行してください。ロケーションリストが以下の内容で
 表示されるのを見られるでしょう。
+<!--
+Call `:GoChannelPeers`. You'll see a location list window with the following content:
+-->
 
 ```
 main.go|19 col 6| This channel of type chan<- int may be:
@@ -2249,12 +2686,20 @@ main.go|27 col 53| received from, here
 ご覧のようにチャンネルの作成、どこに送信しているか、どこから受信しているかが
 表示されます。これはポインター解析を使っているので、スコープを定義する
 必要があります。
+<!--
+As you see you can see the allocation of the channel, where it's sending and
+receiving from. Because this uses pointer analysis, you have to define a scope.
+-->
 
 ---
 
 
 関数呼び出しとターゲットがどう関係しているかを見てみましょう。今度は
 以下の複数のファイルを作ります。 `main.go` は以下の内容にしてください。
+<!--
+Let us see how function calls and targets are related. This time create the
+following files. The content of `main.go` should be:
+-->
 
 ```go
 package main
@@ -2276,6 +2721,9 @@ func Hello(fn func() string) {
 ```
 
 そして `example/example.go` ファイルを以下の内容で作成します。
+<!--
+And the file should be under `example/example.go`:
+-->
 
 ```go
 package example
@@ -2295,12 +2743,27 @@ func Kenya() string {
 ご覧のように `example` パッケージの関数宣言が表示されます。これらの関数は
 呼び出される側 (callee) です。というのも `fn()` という関数呼び出しから
 呼ばれるからです。
+<!--
+So jump to the `Hello` function inside `main.go` and put your cursor on top of
+the function call named `fn()`. Execute `:GoCallees`. This command shows the
+possible call targets of the selected function call. As you see it'll show us
+the function declarations inside the `example` function. Those functions are
+the callees, because they were called by the function call named `fn()`.
+-->
 
 再び `main.go` に戻って今度は `Hello()` の関数定義にカーソルを置いてください。
 この関数の呼び出し側を見るにはどうしたら良いでしょう？ `:GoCallers` を
 実行してください。
+<!--
+Jump back to `main.go` again and this time put your cursor on the function
+declaration `Hello()`. What if we want to see the callers of this function?
+Execute `:GoCallers`.
+-->
 
 以下の出力が見られるはずです。
+<!--
+You should see the output:
+-->
 
 ```
 main.go| 10 col 7 static function call from github.com/fatih/vim-go-tutorial.Main
@@ -2309,11 +2772,20 @@ main.go| 11 col 7 static function call from github.com/fatih/vim-go-tutorial.Mai
 
 最後に、 `callstack` というモードもあります。これは選択部分を含む関数への
 コールグラフの根本からの任意のパスを表示します。
+<!--
+Finally there is also the `callstack` mode, which shows an arbitrary path from
+the root of the call graph to the function containing the selection.
+-->
 
 
 `Hello()` 関数内の `fn()` 関数呼び出しにカーソルを戻してください。関数を
 選択して `:GoCallstack` を実行してください。出力は以下のようになる
 はずです (一部省略しています)。
+<!--
+Put your cursor back to the `fn()` function call inside the `Hello()` function.
+Select the function and call `:GoCallstack`. The output should be like
+(simplified form):
+-->
 
 ```
 main.go| 15 col 26 Found a call path from root to (...)Hello
@@ -2324,12 +2796,22 @@ main.go| 10 col 7 (...)main
 `15` 行目から開始して、次は `14` 行目で最後は `10` 行目となっています。
 これは (`main()` 関数から始まる) 根本から私たちが選択した
 関数 (今のケースでは `fn()`) へのグラフとなっています。
+<!--
+It starts from line `15`, and then to line `14` and then ends at line `10`.
+This is the graph from the root (which starts from `main()`) to the function we
+selected (in our case `fn()`)
+-->
 
 ---
 
 `guru` コマンドのほとんどについてはスコープを定義する必要はありません。
 `スコープ` とは何でしょう？ 以下に `guru` の
 [マニュアル](http://golang.org/s/using-guru) からそのまま引用します。
+<!--
+For most of the `guru` commands you don't need to define any scope. What is a
+`scope`? The following excerpt is straight from the `guru`
+[manual](http://golang.org/s/using-guru):
+-->
 
 > ポインタ解析スコープ: いくつかのクエリはポインタ解析を必要とします。
 > それは「このポインタはどこを指しうるか？」という疑問に応える技術です。
@@ -2345,6 +2827,21 @@ main.go| 10 col 7 (...)main
 > ようなワイルドカードのサブツリーとして指定されます。どのようにスコープを
 > 設定し変更するかを知るにはお使いのエディタ固有のドキュメントを参照
 > してください。
+<!--
+> Pointer analysis scope: some queries involve pointer analysis, a technique for
+> answering questions of the form “what might this pointer point to?”.  It is
+> usually too expensive to run pointer analysis over all the packages in the
+> workspace, so these queries require an additional configuration parameter
+> called the scope, which determines the set of packages to analyze.  Set the
+> scope to the application (or set of applications-\-\-a client and server,
+> perhaps) on which you are currently working.  Pointer analysis is a
+> whole-program analysis, so the only packages in the scope that matter are the
+> main and test packages.
+>
+> The scope is typically specified as a comma-separated set of packages, or
+> wildcarded subtrees like github.com/my/dir/...; consult the specific
+> documentation for your editor to find out how to set and vary the scope.
+-->
 
 
 `vim` は自動的にスマートになろうとして現状のパッケージインポートパスを
@@ -2353,28 +2850,48 @@ main.go| 10 col 7 (...)main
 十分ですが、いくつかのクエリではスコープの設定を変更したいかもしれません。
 その場で `スコープ` を特定の設定に簡単に変更できるように `:GoGuruScope`
 があります。
+<!--
+`vim-go` automatically tries to be smart and sets the current packages import
+path as the `scope` for you. If the command needs a scope, you're mostly
+covered. Most of the times this is enough, but for some queries you might to
+change the scope setting. To make it easy to change the `scope` on the fly with
+have a specific setting called `:GoGuruScope`
+-->
 
 実行すると `guru scope is not set` (guruのスコープが設定されていません)
 というエラーが出ます。 `github.com/fatih/vim-go-tutorial` というスコープ
 に明示的に変更してみましょう。
+<!--
+If you call it, it'll return an error: `guru scope is not set`. Let us change
+it explicitly to the `github.com/fatih/vim-go-tutorial" scope:
+-->
 
 ```
 :GoGuruScope github.com/fatih/vim-go-tutorial
 ```
 
 以下のメッセージが表示されるはずです。
+<!--
+You should see the message:
+-->
 
 ```
 guru scope changed to: github.com/fatih/vim-go-tutorial
 ```
 
 `:GoGuruScope` を引数無しで実行すると、以下のように出力されます。
+<!--
+If you run `:GoGuruScope` without any arguments, it'll output the following
+-->
 
 ```
 current guru scope: github.com/fatih/vim-go-tutorial
 ```
 
 `GOPATH` 全体を選択するには `...` 引数が使えます。
+<!--
+To select the whole `GOPATH` you can use the `...` argument:
+-->
 
 ```
 :GoGuruScope ...
@@ -2383,6 +2900,11 @@ current guru scope: github.com/fatih/vim-go-tutorial
 また複数のパッケージはさらにサブディレクトリを定義することもできます。
 以下の例は `github.com` 以下の全てのパッケージと `golang.org/x/tools`
 パッケージを選択します。
+<!--
+You can also define multiple packages and also subdirectories. The following
+example selects all packages under `github.com` and the `golang.org/x/tools`
+package:
+-->
 
 ```
 :GoGuruScope github.com/... golang.org/x/tools
@@ -2391,12 +2913,20 @@ current guru scope: github.com/fatih/vim-go-tutorial
 パッケージの先頭に `-` (マイナス) 記号をつけることでパッケージを除外
 することができます。以下のは `encoding` 配下のすべてのパッケージを
 `encoding/xml` は除いて選択します。
+<!--
+You can exclude packages by prepending the `-` (negative) sign to a package.
+The following example selects all packages under `encoding` but not
+`encoding/xml`:
+-->
 
 ```
 :GoGuruScope encoding/... -encoding/xml
 ```
 
 スコープをクリアするには空文字列を渡します。
+<!--
+To clear the scope just pass an empty string:
+-->
 
 ```
 :GoGuruScope ""
@@ -2407,6 +2937,13 @@ current guru scope: github.com/fatih/vim-go-tutorial
 設定を追加することで永続的なスコープを定義することもできます。
 値は文字列のリスト型である必要があります。以下に上記のコマンドと同じ内容の
 設定例をいくつか示します。
+<!--
+If you're working on a project where you have to set the scope always to the
+same value and you don't want to call `:GoGuruScope` everytime you start Vim,
+you can also define a permanent scope by adding a setting to your `vimrc`. The
+value needs to be a list of string types. Here are some examples from the
+commands above:
+-->
 
 ```
 let g:go_guru_scope = ["github.com/fatih/vim-go-tutorial"]
@@ -2419,17 +2956,31 @@ let g:go_guru_scope = ["encoding/...", "-encoding/xml"]
 オートコンプリートしようとしてもくれます。ですので
 `github.com/fatih/vim-go-tutorial` と書こうとしているときは `gi` とだけ
 入力してタブを押すと `github.com` と展開されるのが見られるでしょう。
+<!--
+Finally, `vim-go` tries to auto complete packages for you while using
+`:GoGuruScope` as well. So when you try to write
+`github.com/fatih/vim-go-tutorial` just type `gi` and hit `tab`, you'll see
+it'll expand to `github.com`
+-->
 
 ---
 
 あなたが意識するべき別の設定はビルドタグです (ビルド制約とも呼ばれます)。
 例えばあなたの Go のソースコードに以下のビルドタグを入れるかもしれません。
+<!--
+Another setting that you should be aware are build tags  (also called build
+constraints). For example the following is a build tag you put in your Go
+source code:
+-->
 
 ```
 // +build linux darwin
 ```
 
 あるときはあなたのソースコードに以下のようなカスタムタグを入れるかもしれません。
+<!--
+Sometimes there might be custom tags in your source code, such as:
+-->
 
 ```
 // +build mycustomtag
@@ -2441,8 +2992,18 @@ let g:go_guru_scope = ["encoding/...", "-encoding/xml"]
 幸いにも `guru` は `-tags` フラグがあり、それを使えばカスタムタグを
 スキップすることができます。 `vim-go` ユーザの手間を省けるように
 `:GoBuildTags` も提供しています。
+<!--
+In this case, guru will fail as the underlying `go/build` package will be not
+able to build the package. So all `guru` related commands will fail (even
+`:GoDef` when it uses `guru`). Fortunately `guru` has a `-tags` flag that
+allows us to pass custom tags. To make it easy for `vim-go` users we have a
+`:GoBuildTags`
+-->
 
 例えばちょっと以下のコマンドを実行してみてください。
+<!--
+For the example just call the following:
+-->
 
 ```
 :GoBuildTags mycustomtag
@@ -2450,20 +3011,27 @@ let g:go_guru_scope = ["encoding/...", "-encoding/xml"]
 
 こうすると `guru` にこのタグを渡すようになり、これ以降は期待通りに機能します。
 `:GoGuruScope` とちょうど同じように、以下のコマンドでクリアできます。
+<!--
+This will pass this tag to `guru` and from now on it'll work as expected. And
+just like `:GoGuruScope`, you can clear it with:
+-->
 
 ```
 :GoBuildTags ""
 ```
 
 そして最後に、もしあなたが望むなら以下の設定によって永続的にすることもできます。
+<!--
+And finally if you wish you can make it permanent with the following setting:
+-->
 
 ```
 let g:go_build_tags = "mycustomtag"
 ```
 
-# リファクタリングする
+# リファクタリングする <!-- Refactor it -->
 
-### 識別子をリネームする
+### 識別子をリネームする <!-- Rename identifiers -->
 
 最もよく行う作業の1つが識別子をリネームすることです。しかし、それは他の
 パッケージを壊さないように注意深く行わなければならないことでもあります。
@@ -2471,11 +3039,24 @@ let g:go_build_tags = "mycustomtag"
 抽象構文木を理解したリネームを行うには抽象構文機の一部の識別子のみを
 リネームする必要があります (例えばビルドスクリプトなど Go のソースでない
 別のファイルの中の識別子をリネームすべきではありません)。
+<!--
+Renaming identifiers is one of the most common tasks. But it's also something
+that needs to be done carefully in order not to break other packages as well. Also just
+using a tool like `sed` is sometimes not useful, as you want AST aware
+renaming, so it only should rename identifiers that are part of the AST (it
+should not rename for example identifiers in other non Go files, say build
+scripts)
+-->
 
 あなたのためにこういうリネームを行ってくれるツールがあります。それは
 `gorename` と言います。 `vim-go` では `:GoRename` コマンドを使います。
 それは裏では `gorename` を使っています。 `main.go` の内容を以下のように
 変更しましょう。
+<!--
+There is a tool that does renaming for you, which is called `gorename`.
+`vim-go` uses the `:GoRename` command to use `gorename` under the hood.  Let us
+change `main.go` to the following content:
+-->
 
 ```go
 package main
@@ -2499,6 +3080,11 @@ func name() string {
 `Server` 構造体の `name` フィールドの先頭にカーソルを置いて
 `:GoRename bar` と実行してください。 全ての `name` の参照が `bar` と
 リネームされるのが見られるでしょう。最終的な内容は以下のようになります。
+<!--
+Put your cursor on top of the `name` field inside the `Server` struct and call
+`:GoRename bar`.  You'll see all `name` references are renamed to `bar`. The
+final content would look like:
+-->
 
 ```go
 package main
@@ -2523,10 +3109,19 @@ func name() string {
 コメントの中の文字列はリネームされていません。もっと良いことに `:GoRename`
 は `GOPATH` 以下にある全てのパッケージを検索してその識別子に依存している
 全ての識別子をリネームします。とても強力なツールです。
+<!--
+As you see, only the necessary identifiers are renamed, but the function `name`
+or the string inside the comment is not renamed. What's even better is that
+`:GoRename` searches all packages under `GOPATH` and renames all identifiers
+that depend on the identifier. It's a very powerful tool.
+-->
 
-### 関数を抽出する
+### 関数を抽出する <!-- Extract function -->
 
 別の例に移りましょう。 `main.go` ファイルを以下のように変更してください。
+<!--
+Let's move to another example. Change your `main.go` file to:
+-->
 
 ```go
 package main
@@ -2549,13 +3144,26 @@ func main() {
 
 これは `msg` 変数に含まれる改行を数えるだけの基本的な例です。実行すると
 `3` と出力するのが見られるでしょう。
+<!--
+This is a basic example that just counts the newlines in our `msg` variable. If
+you run it, you'll see that it outputs `3`.
+-->
 
 改行を数えるロジックを外でも使いたいとしましょう。リファクタリングしてみましょう。
 Guru は `freevars` モードでこのような状況で私たちを助けてくれます。
 `freevars` モードは指定された選択範囲の中で参照されているが定義されていない
 変数を表示してくれます。
+<!--
+Assume we want to reuse the newline counting logic somewhere else. Let us
+refactor it. Guru can help us in these situations with the `freevars` mode. The
+`freevars` mode shows variables that are referenced but not defined within a
+given selection.
+-->
 
 `visual` モードで以下の部分を選択しましょう。
+<!--
+Let us select the piece in `visual` mode:
+-->
 
 ```go
 var count int
@@ -2570,6 +3178,12 @@ for i := 0; i < len(msg); i++ {
 `:'<,'>GoFreevars` という形式になるはずです。
 結果はまたしてもクイックフィクスリストで自由変数である全ての変数を含んで
 います。私たちのケースでは以下の単一の変数になります。
+<!--
+After selecting it, call `:GoFreevars`. It should be in form of
+`:'<,'>GoFreevars`. The result is again a quickfix list and it contains all the
+variables that are free variables. In our case it's a single variable and the
+result is:
+-->
 
 
 ```go
@@ -2578,6 +3192,10 @@ var msg string
 
 さてこれがどのように役立つのでしょう？このちょっとした情報でスタンドアローンの
 関数にリファクタリングするには十分です。以下の内容で新しい関数を作ってください。
+<!--
+So how useful is this? This little piece of information is enough to refactor
+it into a standalone function. Create a new function with the following content:
+-->
 
 ```go
 func countLines(msg string) int {
@@ -2595,6 +3213,11 @@ func countLines(msg string) int {
 関数への入力は `:GoFreevars` の結果である自由変数です。私たちは何を返すか
 (返すものがあれば) を決めただけです。このケースでは count を返します。
 `main.go は以下のようになります。
+<!--
+You'll see that the content is our previously selected code. And the input to
+the function is the result of `:GoFreevars`, the free variables. We only
+decided what to return (if any). In our case we return the count. Our `main.go` will be in the form of:
+-->
 
 ```go
 package main
@@ -2622,27 +3245,52 @@ func countLines(msg string) int {
 このようにして一片のコードをリファクタリングします。 `:GoFreevars` は
 コードの複雑さを理解するために使用することができます。実行するだけで
 どれだけ多くの変数に依存しているか見ることができます。
+<!--
+That's how you refactor a piece of code. `:GoFreevars` can be used also to
+understand the complexity of a code. Just run it and see how many variables are
+dependent to it.
+-->
 
-# コード生成する
+# コード生成する <!-- Generate it -->
 
 コード生成はホットなトピックです。 go/ast 、 go/parser 、 go/printer などの
 素晴らしい標準ライブラリのおかげで、Go は素晴らしいジェネレータを簡単に
 作成できるという利点があります。
+<!--
+Code generation is a hot topic. Because of the great std libs such as go/ast,
+go/parser, go/printer, etc.. Go has the advantage of being able to create great generators
+easily.
+-->
 
 まず `:GoGenerate` コマンドがあります。これは裏では `go generate` を実行
 します。 `:GoBuild` や `:GoTest` などと同じように動きます。エラーがあったら
 クイックフィクスリストに表示するので簡単に修正できます。
+<!--
+First we have the `:GoGenerate` command that calls `go generate` under the
+hood. It just works like `:GoBuild`, `:GoTest`, etc.. If there are any errors it
+also shows them so you can easily fix it.
+-->
 
-### インターフェースを実装するメソッドスタブ
+### インターフェースを実装するメソッドスタブ <!-- Method stubs implementing an interface -->
 
 インターフェースはコンポジションをするのに非常に素晴らしいです。あなたの
 コードをより扱いやすくしてくれます。また、インタフェース型を受け取る関数
 をそのインターフェースを実装するメソッドを持つ型でモックすることもできます。
+<!--
+Interfaces are really great for composition. They make your code easier to deal
+with. It's also easier for you to create tests as you can mock functions that
+accept an interface type with a type that implements methods for testing.
+-->
 
 
 `vim-go` は [impl](https://github.com/josharian/impl) というツールを
 サポートしています。 `impl` は指定したインターフェースを実装するメソッド
 スタブを生成します。 `main.go` の内容を以下のように変更しましょう。
+<!--
+`vim-go` has support for the tool [impl](https://github.com/josharian/impl).
+`impl` generates method stubs that implement a given interface. Let us change
+`main.go`'s content to the following:
+-->
 
 ```go
 package main
@@ -2659,6 +3307,11 @@ func main() {
 `T` にカーソルを置いて `:GoImpl` とタイプしてください。インターフェースを
 入力するプロンプトが表示されます。 `io.ReadWriteCloser` と入力してエンター
 を押してください。ファイルの内容が以下のように変わるのが見られるでしょう。
+<!--
+Put your cursor on top of `T` and type `:GoImpl`. You'll be prompted to write
+an interface. Type `io.ReadWriteCloser` and hit enter. You'll see the content
+changed to:
+-->
 
 ```go
 package main
@@ -2686,15 +3339,26 @@ func main() {
 
 ご覧のようにこれはとても素敵です。型の上にカーソルを置いて
 `:GoImpl io.ReadWriteCloser` と入力しても同じ結果になります。
+<!--
+That's really neat as you see. You can also just type `:GoImpl
+io.ReadWriteCloser` when you're on top of a type and it'll do the same.
+-->
 
 でも型の先頭にカーソルを置く必要はありません。どこからでも
 実行することができます。例えば以下のように実行してください。
+<!--
+But you don't need to put your cursor on top of a type.  You can invoke it from
+everywhere. For example execute this:
+-->
 
 ```
 :GoImpl b *B fmt.Stringer
 ```
 
 以下のコードが作成されるのが見られるでしょう。
+<!--
+You'll see the following will be created:
+-->
 
 ```go
 func (b *B) String() string {
@@ -2706,8 +3370,14 @@ func (b *B) String() string {
 大きなインターフェースを実装するときはそうです。簡単にコードが
 生成でき、 `panic()` を使っているのでなんの問題もなくコンパイル
 できます。必要な部分を埋めればそれで完了です。
+<!--
+As you see this is very helpful, especially if you have a large interface with
+large method set. You can easily generate it, and because it uses `panic()`
+this compiles without any problem. Just fill the necessary parts and you're
+done.
+-->
 
-# シェアする
+# シェアする <!-- Share it -->
 
 `vim-go` はあなたのコードを https://play.golang.org/ で他の人と簡単に
 シェアする機能も持っています。ご存知のように Go playground は小さな
@@ -2715,8 +3385,19 @@ func (b *B) String() string {
 あなたがとあるアイディアを試していて他の人にシェアしたいときがある
 でしょう。 `vim-go` はこういったこと全てを `:GoPlay` コマンドでより良く
 します。
+<!--
+`vim-go` has also features to easily share your code with other via
+https://play.golang.org/. As you know the Go playground is a perfect place to
+share small snippets, exercises and/or tips & tricks. There are times you are
+playing with an idea and want to share with others. You copy the code and visit
+play.golang.org and then paste it.  `vim-go` makes all these better with the
+`:GoPlay` command.
+-->
 
 まず `main.go` ファイルを以下のシンプルなコードに変更しましょう。
+<!--
+First let us change our `main.go` file with the following simple code:
+-->
 
 ```go
 package main
@@ -2733,12 +3414,27 @@ func main() {
 見られるでしょう。まだあります。スニペットのリンクは自動的にクリップ
 ボードにコピーされます。あとはどこかにリンクをペーストするだけです。
 リンクは play.golang.org で表示されているものと同じであることがわかるでしょう。
+<!--
+Now call `:GoPlay` and hit enter. You'll see that `vim-go` automatically
+uploaded your source code `:GoPlay` and also opened a browser tab that shows
+it. But there is more. The snippet link is automatically copied to your
+clipboard as well. Just paste the link to somewhere. You'll see the link is the
+same as what's on play.golang.org.
+-->
 
 `:GoPlay` は範囲も受け付けます。一片のコードを選択して `:GoPlay` を
 実行してください。選択された部分だけがアップロードされます。
+<!--
+`:GoPlay` also accepts a range. You can select a piece of code and call
+`:GoPlay`. It'll only upload the selected part.
+-->
 
 `:GoPlay` の振る舞いを変更する設定が2つあります。 `vim-go` がブラウザの
 タブを開くのが好きではない場合は以下の設定で無効にできます。
+<!--
+There are two settings to tweak the behavior of `:GoPlay`. If you don't like
+that `vim-go` opens a browser tab for you, you can disable it with:
+-->
 
 ```
 let g:go_play_open_browser = 0
@@ -2746,27 +3442,42 @@ let g:go_play_open_browser = 0
 
 次にブラウザが誤判定される (私たちは `open` か `xdg-open` を使っています) なら
 以下の設定で手動でブラウザを設定できます。
+<!--
+Secondly, if your browser is misdetected (we're using `open` or `xdg-open`) you
+can manually set the browser via:
+-->
 
 ```
 let g:go_play_browser_command = "chrome"
 ```
 
-# 寄付
+# 寄付 <!-- Donation -->
 
 このチュートリアルは私のプライベートの時間を使って作られました。この
 チュートリアルが気に入って寄付したいと思われたら、
 [パトロンになる](https://www.patreon.com/fatih) でぜひ完全なサポーターに
 なってください！
+<!--
+This tutorial was created by me in my spare time. If you like it and would
+like to donate, you now you can be a fully supporter by [being a
+patron](https://www.patreon.com/fatih)!
+-->
 
 パトロンになることで、あなたは vim-go をより成長し成熟させることができ、
 私がバグ修正のために調査したり、新しいドキュメントを書いたり、今ある
 機能や将来の機能追加を私が行うのを支援することができます。これは完全に
 任意で vim-go の現在進行中の開発を直接支援する方法の1つです。
 ありがとう！
+<!--
+By being a patron, you are enabling vim-go to grow and mature, helping me to
+invest in bug fixes, new documentation, and improving both current and future
+features. It's completely optional and is just a direct way to support vim-go's
+ongoing development. Thanks!
+-->
 
 [https://www.patreon.com/fatih](https://www.patreon.com/fatih)
 
-## 今後説明を追記する予定のコマンド
+## 今後説明を追記する予定のコマンド <!-- TODO Commands -->
 * :GoPath
 * :AsmFmt
 
