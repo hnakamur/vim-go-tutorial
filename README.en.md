@@ -1,3 +1,11 @@
+# Archived project. No maintenance. 
+
+This project is not maintained anymore and is archived. Feel free to fork and
+make your own changes if needed. For more detail read my blog post: [Taking an indefinite sabbatical from my projects](https://arslan.io/2018/10/09/taking-an-indefinite-sabbatical-from-my-projects/)
+
+Thanks to everyone for their valuable feedback and contributions.
+
+
 # vim-go-tutorial
 
 Tutorial for vim-go. A simple tutorial on how to install and use vim-go.
@@ -34,6 +42,7 @@ Tutorial for vim-go. A simple tutorial on how to install and use vim-go.
 14. [Generate it](#generate-it)
   * [Method stubs implementing an interface](#method-stubs-implementing-an-interface)
 15. [Share it](#share-it)
+16. [HTML template](#html-template)
 
 # Quick Setup
 
@@ -87,8 +96,10 @@ It's a very basic file that prints `vim-go` to stdout.
 
 # Run it
 
-You can easily run the file with `:GoRun`. Under the hood it calls `go run` for
+You can easily run the file with `:GoRun %`. Under the hood it calls `go run` for
 the current file. You should see that it prints `vim-go`.
+
+For whole package run with `:GoRun`.
 
 # Build it
 
@@ -245,7 +256,7 @@ be run for you as well.
 `:GoTest` times out after 10 seconds by default. This is useful because Vim is
 not async by default. You can change the timeout value with `let g:go_test_timeout = '10s'`
 
-We have two more commands that makes it easy to deal with test files. The first
+We have two more commands that make it easy to deal with test files. The first
 one is `:GoTestFunc`. This only tests the function under your cursor.
 Let us change the content of the test file (`main_test.go`) to:
 
@@ -427,8 +438,8 @@ Finally, if you don't like vim-go's internal view, you can also call
 `:GoCoverageBrowser`. Under the hood it uses `go tool cover` to create a HTML
 page and then opens it in your default browser. Some people like this more.
 
-Using the `:GoCoverageXXX` commands do not create any kind of temporary files.
-It doesn't pollute your workflow. So you don't have to deal with removing
+Using the `:GoCoverageXXX` commands does not create any kind of temporary files
+and doesn't pollute your workflow. So you don't have to deal with removing
 unwanted files every time.
 
 ### vimrc improvements
@@ -561,7 +572,7 @@ func Bar() string {
 }
 ```
 
-Previously we were using regexp-based text objects. And it lead to problems.
+Previously we were using regexp-based text objects, which leads to problems.
 For example in this example, put your cursor to the anonymous functions' `func`
 keyword and execute `dif` in `normal` mode. You'll see that only the body of
 the anonymous function is deleted.
@@ -604,7 +615,7 @@ function body, even though your cursor is outside the function, or it selects
 the function comments as well.
 
 This is really powerful and this all is thanks to the knowledge we have from
-let g:go_textobj_include_function_doc = 1 `motion`. If you don't like comments
+`let g:go_textobj_include_function_doc = 1` `motion`. If you don't like comments
 being a part of the function declaration, you can easily disable it with:
 
 ```vim
@@ -620,7 +631,7 @@ a part of the function declaration or not?)
 ### Struct split and join
 There is a great plugin that allows you to split or join Go structs. It's
 actually not a Go plugin, but it has support for Go structs. To enable it add
-plugin directive between the `plug` definition into your `vimrc` and run
+plugin directive between the `plug` definition into your `vimrc`, then do a `:source ~/.vimrc` in your vim editor and run
 `:PlugInstall`. Example:
 
 ```vim
@@ -660,7 +671,7 @@ Vim-go supports two popular snippet plugins.
 [Ultisnips](https://github.com/SirVer/ultisnips) and
 [neosnippet](https://github.com/Shougo/neosnippet.vim). By default, 
 if you have `Ultisnips` installed it'll work.  Let us install `ultisnips`
-first. Add it between the `plug` directives in your `vimrc` and then run
+first. Add it between the `plug` directives in your `vimrc`, then do a `:source ~/.vimrc` in your vim editor and then run
 `:PlugInstall`. Example:
 
 ```vim
@@ -673,6 +684,9 @@ call plug#end()
 There are many helpful snippets. To see the full list check our current
 snippets:
 https://github.com/fatih/vim-go/blob/master/gosnippets/UltiSnips/go.snippets
+
+[UltiSnips and YouCompleteMe may conflict on [tab] button](https://stackoverflow.com/questions/14896327/ultisnips-and-youcompleteme)
+
 
 Let me show some of the snippets that I'm using the most. Change your `main.go`
 content to:
@@ -846,16 +860,34 @@ If we add the following:
 
 ```vim
 let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
 ```
 
-We are now also highlighting function names. `Foo` and `main` will now
-be highlighted:
+We are now also highlighting function and method names in declarations. `Foo`
+and `main` will now be highlighted, but `Println` is not as that is an
+invocation:
 
 ```go
 func (t *T) Foo() {}
 
 func main() {
+  fmt.Println("vim-go")
+}
+```
+
+If you also want to highlight function and method invocations, add the
+following:
+
+```vim
+let g:go_highlight_function_calls = 1
+```
+
+Now, `Println` will also be highlighted:
+
+```go
+func (t *T) Foo() {}
+
+func main() {
+  fmt.Println("vim-go")
 }
 ```
 
@@ -957,7 +989,7 @@ let g:molokai_original = 1
 colorscheme molokai
 ```
 
-After that restart Vim and call `:PlugInstall`. This will pull the plugin
+After that restart Vim and call `:source ~/.vimrc`, then `:PlugInstall`. This will pull the plugin
 and install it for you. After the plugin is installed, you need to restart Vim
 again.
 
@@ -1142,7 +1174,7 @@ a certain plugin. The commands are:
 First let us enable these two commands by installing the necessary plugin. The
 plugin is called [ctrlp](https://github.com/ctrlpvim/ctrlp.vim). Long-time Vim
 users have it installed already. To install it add the following line between
-your `plug` directives and call `:PlugInstall` to install it:
+your `plug` directives, then do a `:source ~/.vimrc` in your vim editor and call `:PlugInstall` to install it:
 
 ```vim
 Plug 'ctrlpvim/ctrlp.vim'
@@ -1542,9 +1574,9 @@ func (h handler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 ```
 
 Put your cursor on top of the `handler` and call `:GoReferrers`. This calls the
-`referrers` mode of `vim-go`, which finds references to the selected identifier,
+`referrers` mode of `guru`, which finds references to the selected identifier,
 scanning all necessary packages within the workspace. The result will be a
-quickfix list, so you should be able to jump to the results easily.
+location list.
 
 ---
 
@@ -1555,7 +1587,7 @@ declarations of a package if selected.
 
 Let's continue with same `main.go` file.  Put the cursor on top of the `URL`
 field or `req.URL` (inside the `ServeHTTP` function). Call `:GoDescribe`.  You'll
-see a quick fix list populated with the following content:
+see a location list populated with the following content:
 
 ```
 main.go|27 col 48| reference to field URL *net/url.URL
@@ -1593,7 +1625,7 @@ You want to know which interface it might implement. The mode `implement` of
 
 Just continue with the same previous `main.go` file. Put your cursor on the
 `handler` identifier just after the `main()` function. Call `:GoImplements`
-You'll see a quick fix list populated with the following content:
+You'll see a location list populated with the following content:
 
 
 ```
@@ -1602,8 +1634,8 @@ main.go|23 col 6| chan type handler
 ```
 
 The first line is our selected type and the second line will be the interface
-it implements. Because a type can implement many interfaces it's a quickfix
-list that you can navigate.
+it implements. Because a type can implement many interfaces it's a location
+list.
 
 ---
 
@@ -1628,9 +1660,8 @@ main.go|12 col 6| this error may contain these dynamic types:
 /usr/local/go/src/net/net.go|380 col 6| *net.OpError
 ```
 
-This is a classic `quickfix` output and you can navigate between them. You'll
-see that the `err` value may be the `syscall.EINVAL` constant or it also might
-be the dynamic types `syscall.Errno` or `*net.OpError`. As you see this is
+You'll see that the `err` value may be the `syscall.EINVAL` constant or it also
+might be the dynamic types `syscall.Errno` or `*net.OpError`. As you see this is
 really helpful when implementing custom logic to handle the error differently if
 needed. Note that this query needs a guru `scope` to be set. We'll going to
 cover in a moment what a `scope` is and how you can change it dynamically.
@@ -1649,7 +1680,7 @@ Move your cursor to the following expression and select the whole line:
 ch <- n
 ```
 
-Call `:GoChannelPeers`. You'll see a quickfix window with the following content:
+Call `:GoChannelPeers`. You'll see a location list window with the following content:
 
 ```
 main.go|19 col 6| This channel of type chan<- int may be:
@@ -1716,9 +1747,6 @@ You should see the output:
 main.go| 10 col 7 static function call from github.com/fatih/vim-go-tutorial.Main
 main.go| 11 col 7 static function call from github.com/fatih/vim-go-tutorial.Main
 ```
-
-As with the other usages you can easily navigate the callers inside the
-quickfix window.
 
 Finally there is also the `callstack` mode, which shows an arbitrary path from
 the root of the call graph to the function containing the selection.
@@ -2157,6 +2185,15 @@ can manually set the browser via:
 
 ```
 let g:go_play_browser_command = "chrome"
+```
+
+# HTML template
+
+By default syntax highlighting for Go HTML template is enabled for `.tmpl` files.
+If you want to enable it for another filetype add the following setting to your `.vimrc`:
+
+```
+au BufRead,BufNewFile *.gohtml set filetype=gohtmltmpl
 ```
 
 # Donation

@@ -5,9 +5,7 @@
 Tutorial for vim-go. A simple tutorial on how to install and use vim-go.
 -->
 
-(訳注: このチュートリアルは [fatih/vim-go-tutorial: Tutorial for vim-go](https://github.com/fatih/vim-go-tutorial) を翻訳したものです。今は
-[Merge pull request #71 from aitva/master · fatih/vim-go-tutorial@648d40f](https://github.com/fatih/vim-go-tutorial/commit/648d40ff441337745bac1254cb8232732d092109) のコミットに対応しています。
-修正・改善がある場合はぜひプルリクエストを送ってください！)
+(訳注: このチュートリアルは [fatih/vim-go-tutorial: Tutorial for vim-go](https://github.com/fatih/vim-go-tutorial) を翻訳したものです。リンク先の冒頭にあるとおり原文はアーカイブされメンテナンス終了となっています。翻訳に修正・改善がある場合はぜひプルリクエストを送ってください！)
 
 # 目次
 
@@ -1060,6 +1058,11 @@ https://github.com/fatih/vim-go/blob/master/gosnippets/UltiSnips/go.snippets
 There are many helpful snippets. To see the full list check our current
 snippets:
 https://github.com/fatih/vim-go/blob/master/gosnippets/UltiSnips/go.snippets
+-->
+
+[UltiSnips と YouCompleteMe は [tab] ボタンのバインディングで衝突するかもしれません](https://stackoverflow.com/questions/14896327/ultisnips-and-youcompleteme)
+<!--
+[UltiSnips and YouCompleteMe may conflict on [tab] button](https://stackoverflow.com/questions/14896327/ultisnips-and-youcompleteme)
 -->
 
 私は最も使っているいくつかのスニペットを紹介しましょう。 `main.go` の内容を
