@@ -1062,6 +1062,11 @@ snippets:
 https://github.com/fatih/vim-go/blob/master/gosnippets/UltiSnips/go.snippets
 -->
 
+[UltiSnips と YouCompleteMe は [tab] ボタンのバインディングで衝突するかもしれません](https://stackoverflow.com/questions/14896327/ultisnips-and-youcompleteme)
+<!--
+[UltiSnips and YouCompleteMe may conflict on [tab] button](https://stackoverflow.com/questions/14896327/ultisnips-and-youcompleteme)
+-->
+
 私は最も使っているいくつかのスニペットを紹介しましょう。 `main.go` の内容を
 以下のように変更してください。
 <!--
