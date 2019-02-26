@@ -9,39 +9,39 @@ Tutorial for vim-go. A simple tutorial on how to install and use vim-go.
 
 # 目次
 
-1. [クイックセットアップ](#クイックセットアップ) <!-- [Quick Setup](#quick-setup) -->
+1. [クイックセットアップ](#クイックセットアップ-) <!-- [Quick Setup](#quick-setup) -->
 2. [Hello World](#hello-world) <!-- [Hello World](#hello-world) -->
-3. [実行する](#実行する) <!-- [Run it](#run-it) -->
-4. [ビルドする](#ビルドする) <!-- [Build it](#build-it) -->
-5. [修正する](#修正する) <!-- [Fix it](#fix-it) -->
-6. [テストする](#テストする) <!-- [Test it](#test-it) -->
-7. [カバレッジを見る](#カバレッジを見る) <!-- [Cover it](#cover-it) -->
-8. [編集する](#編集する) <!-- [Edit it](#edit-it) -->
-  * [import文](#import文) <!-- [Imports](#imports) -->
-  * [テキストオブジェクト](#テキストオブジェクト) <!-- [Text Objects](#text-objects) -->
-  * [構造体リテラルの行分割と結合](#構造体リテラルの行分割と結合) <!-- [Struct split&join](#struct-split-and-join) -->
-  * [スニペット](#スニペット) <!-- [Snippets](#snippets) -->
-9. [美しく表示する](#美しく表示する) <!-- [Beautify it](#beautify-it) -->
-10. [チェックする](#チェックする) <!-- [Check it](#check-it) -->
-11. [ナビゲートする](#ナビゲートする) <!-- [Navigate it](#navigate-it) -->
-  * [代替ファイル](#代替ファイル) <!-- [Alternate files](#alternate-files) -->
-  * [定義へジャンプ](#定義へジャンプ) <!-- [Go to definition](#go-to-definition) -->
-  * [関数の間を移動する](#関数の間を移動する) <!-- [Move between functions](#move-between-functions) -->
-12. [理解する](#理解する) <!-- [Understand it](#understand-it) -->
-  * [ドキュメント検索](#ドキュメント検索) <!-- [Documentation Lookup](#documentation-lookup) -->
-  * [識別子の解決](#識別子の解決) <!-- [Identifier resolution](#identifier-resolution) -->
-  * [識別子のハイライト](#識別子のハイライト) <!-- [Identifier highlighting](#identifier-highlighting) -->
-  * [依存パッケージとファイル](#依存パッケージとファイル) <!-- [Dependencies and files](#dependencies-and-files)
+3. [実行する](#実行する-) <!-- [Run it](#run-it) -->
+4. [ビルドする](#ビルドする-) <!-- [Build it](#build-it) -->
+5. [修正する](#修正する-) <!-- [Fix it](#fix-it) -->
+6. [テストする](#テストする-) <!-- [Test it](#test-it) -->
+7. [カバレッジを見る](#カバレッジを見る-) <!-- [Cover it](#cover-it) -->
+8. [編集する](#編集する-) <!-- [Edit it](#edit-it) -->
+  * [import文](#import文-) <!-- [Imports](#imports) -->
+  * [テキストオブジェクト](#テキストオブジェクト-) <!-- [Text Objects](#text-objects) -->
+  * [構造体リテラルの行分割と結合](#構造体リテラルの行分割と結合-) <!-- [Struct split&join](#struct-split-and-join) -->
+  * [スニペット](#スニペット-) <!-- [Snippets](#snippets) -->
+9. [美しく表示する](#美しく表示する-) <!-- [Beautify it](#beautify-it) -->
+10. [チェックする](#チェックする-) <!-- [Check it](#check-it) -->
+11. [ナビゲートする](#ナビゲートする-) <!-- [Navigate it](#navigate-it) -->
+  * [代替ファイル](#代替ファイル-) <!-- [Alternate files](#alternate-files) -->
+  * [定義へジャンプ](#定義へジャンプ-) <!-- [Go to definition](#go-to-definition) -->
+  * [関数の間を移動する](#関数の間を移動する-) <!-- [Move between functions](#move-between-functions) -->
+12. [理解する](#理解する-) <!-- [Understand it](#understand-it) -->
+  * [ドキュメント検索](#ドキュメント検索-) <!-- [Documentation Lookup](#documentation-lookup) -->
+  * [識別子の解決](#識別子の解決-) <!-- [Identifier resolution](#identifier-resolution) -->
+  * [識別子のハイライト](#識別子のハイライト-) <!-- [Identifier highlighting](#identifier-highlighting) -->
+  * [依存パッケージとファイル](#依存パッケージとファイル-) <!-- [Dependencies and files](#dependencies-and-files)
  -->
   * [Guru](#guru) <!-- [Guru](#guru) -->
-13. [リファクタリングする](#リファクタリングする) <!-- [Refactor it](#refactor-it) -->
-  * [識別子をリネームする](#識別子をリネームする) <!-- [Rename identifiers](#rename-identifiers) -->
-  * [関数を抽出する](#関数を抽出する) <!-- [Extract function](#extract-function) -->
-14. [コード生成する](#コード生成する) <!-- [Generate it](#generate-it) -->
-  * [インターフェースを実装するメソッドスタブ](#インターフェースを実装するメソッドスタブ) <!-- [Method stubs implementing an interface](#method-stubs-implementing-an-interface)
+13. [リファクタリングする](#リファクタリングする-) <!-- [Refactor it](#refactor-it) -->
+  * [識別子をリネームする](#識別子をリネームする-) <!-- [Rename identifiers](#rename-identifiers) -->
+  * [関数を抽出する](#関数を抽出する-) <!-- [Extract function](#extract-function) -->
+14. [コード生成する](#コード生成する-) <!-- [Generate it](#generate-it) -->
+  * [インターフェースを実装するメソッドスタブ](#インターフェースを実装するメソッドスタブ-) <!-- [Method stubs implementing an interface](#method-stubs-implementing-an-interface)
  -->
-15. [シェアする](#シェアする) <!-- [Share it](#share-it) -->
-16. [HTML テンプレート](#html-テンプレート) <!-- [HTML template](#html-template) -->
+15. [シェアする](#シェアする-) <!-- [Share it](#share-it) -->
+16. [HTML テンプレート](#html-テンプレート-) <!-- [HTML template](#html-template) -->
 
 # クイックセットアップ <!-- Quick Setup -->
 
