@@ -1535,7 +1535,7 @@ let g:molokai_original = 1
 colorscheme molokai
 ```
 
-設定を追加したらVimを再起動して ``:source ~/.vimrc` を実行し :PlugInstall` を
+設定を追加したらVimを再起動して `:source ~/.vimrc` を実行し `:PlugInstall` を
 実行してください。これでプラグインがダウンロードされインストールされます。
 プラグインがインストールされたら再びVimを再起動してください。
 <!--
@@ -3217,7 +3217,7 @@ func countLines(msg string) int {
 関数の中身は私たちが先程選択したコードであることがわかるでしょう。そして
 関数への入力は `:GoFreevars` の結果である自由変数です。私たちは何を返すか
 (返すものがあれば) を決めただけです。このケースでは count を返します。
-`main.go は以下のようになります。
+`main.go` は以下のようになります。
 <!--
 You'll see that the content is our previously selected code. And the input to
 the function is the result of `:GoFreevars`, the free variables. We only
